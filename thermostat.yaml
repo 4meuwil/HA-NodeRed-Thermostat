@@ -178,12 +178,14 @@ group:
     entities:
      - climate.downstairs_ac
      - climate.downstairs_heat
+     - switch.downstairs_Fan
   up_thermostat:
     name: Upstairs AC/Heat
     view: no
     entities:        
      - climate.upstairs_ac
      - climate.upstairs_heat
+     - switch.upstairs_fan
 
      
 
