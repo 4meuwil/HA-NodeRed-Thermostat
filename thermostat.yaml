@@ -1,3 +1,10 @@
+homeassistant:
+  customize:
+    switch.downstairs_fan:
+      icon: mdi:fan
+    swithc.upstairs_fan:
+      icon: mdi:fan
+
 ## AUTOMATIONS FOR FAN CALL AND TO AVOID SYSTEM CONFLICTS
 automation:         
 ## Downstairs AC Call On/Off Controls Fan Switch
