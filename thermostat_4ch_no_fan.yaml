@@ -1,0 +1,188 @@
+## This Variation is Solely For using a Sonoff 4ch/Pro to Control 2 Units with No Manual Fan
+
+## 4Ch Sonoff Wiring
+## 1 - (N.C. - empty) (COM - 24v Red Wire from Downstairs Unit) (N.O. - AC/Fan Call yellow & green wires together)
+## 2 - (N.C. - empty) (COM - 24v Red Wire from Downstairs Unit) (N.O. - Heat Call white wire)
+## 3 - (N.C. - empty) (COM - 24v Red Wire from Upstairs Unit) (N.O. - AC/Fan Call yellow & green wires together)
+## 4 - (N.C. - empty) (COM - 24v Red Wire from Upstairs Unit) (N.O. - Heat Call white wire)
+
+automation:   
+
+## No Automations for Fan Switches Required In This Configuration!!
+      
+##########################################################
+##                                                      ##
+##       ONLY ONE SYSTEM AT A TIME, AC OR HEAT          ##
+##                This Is Important!!!                  ##
+##                                                      ##
+##########################################################
+
+## Turning Heat Thermostat On Turns Off AC Thermostat - Downstairs
+  - id: Downstairs_Heat_Mode
+    alias: Downstairs Heat Disables AC
+    initial_state: 'on'
+    trigger:
+      - platform: template
+        value_template: "{{ (states.climate.downstairs_heat.attributes.operation_mode) == 'heat' }}"
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_ac
+          operation_mode: 'off'
+## Turning AC Thermostat On Turns Off Heat Thermostat - Downstairs
+  - id: Downstairs_AC_Mode
+    alias: Downstairs AC Disables Heat
+    initial_state: 'on'
+    trigger:
+      - platform: template
+        value_template: "{{ (states.climate.downstairs_ac.attributes.operation_mode) == 'cool' }}"
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_heat
+          operation_mode: 'off'
+                
+## Turning Heat Thermostat On Turns Off AC Thermostat - Upstairs
+  - id: Upstairs_Heat_Mode
+    alias: Upstairs Heat Disables AC
+    initial_state: 'on'
+    trigger:
+      - platform: template
+        value_template: "{{ (states.climate.upstairs_heat.attributes.operation_mode) == 'heat' }}"
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_ac
+          operation_mode: 'off'
+## Turning AC Thermostat On Turns Off Heat Thermostat - Upstairs
+  - id: Upstairs_AC_Mode
+    alias: Upstairs AC Disables Heat
+    initial_state: 'on'
+    trigger:
+      - platform: template
+        value_template: "{{ (states.climate.upstairs_ac.attributes.operation_mode) == 'cool' }}"
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_heat
+          operation_mode: 'off'
+
+
+          
+## THERMOSTATS CONFIGURATION          
+climate:
+## Downstairs Heat Thermostat
+  - platform: generic_thermostat
+    name: Downstairs Heat
+    heater: switch.downstairs_furnace
+    target_sensor: sensor.downstairs_temp
+    min_temp: 65
+    max_temp: 75
+    min_cycle_duration:
+      minutes: 15
+    initial_operation_mode: "off"
+    target_temp: 70
+    away_temp: 67
+    cold_tolerance: 0.5
+    hot_tolerance: 0.5
+    
+## Downstairs AC Thermostat
+  - platform: generic_thermostat
+    name: Downstairs AC
+    heater: switch.downstairs_ac
+    target_sensor: sensor.downstairs_temp
+    min_temp: 65
+    max_temp: 75
+    initial_operation_mode: "auto"    
+    min_cycle_duration:
+      minutes: 10
+    target_temp: 73
+    away_temp: 75
+    cold_tolerance: 0.5
+    hot_tolerance: 0.5
+    ac_mode: true
+    
+## Upstairs Heat Thermostat
+  - platform: generic_thermostat
+    name: Upstairs Heat
+    heater: switch.upstairs_furnace
+    target_sensor: sensor.upstairs_temp
+    min_temp: 65
+    max_temp: 75
+    min_cycle_duration:
+      minutes: 15
+    initial_operation_mode: "off"
+    target_temp: 70
+    away_temp: 67
+    cold_tolerance: 0.5
+    hot_tolerance: 0.5
+    
+## Upstairs AC Thermostat
+  - platform: generic_thermostat
+    name: Upstairs AC
+    heater: switch.upstairs_ac
+    target_sensor: sensor.upstairs_temp
+    min_temp: 65
+    max_temp: 75
+    initial_operation_mode: "auto"    
+    min_cycle_duration:
+      minutes: 10
+    target_temp: 73
+    away_temp: 75
+    cold_tolerance: 0.5
+    hot_tolerance: 0.5
+    ac_mode: true  
+
+
+## Groups For Entities In This Package 
+group:
+  down_thermostat:
+    name: Downstairs AC/Heat
+    view: no
+    entities:
+     - climate.downstairs_ac
+     - climate.downstairs_heat
+  up_thermostat:
+    name: Upstairs AC/Heat
+    view: no
+    entities:        
+     - climate.upstairs_ac
+     - climate.upstairs_heat
+
+       
+## Thermostat Switches For Climate Control          
+switch:
+  - platform: mqtt
+    name: "Downstairs AC"
+    command_topic: "cmnd/thermostat/POWER1"
+    state_topic: "stat/thermostat/POWER1"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  - platform: mqtt
+    name: "Downstairs Furnace"
+    command_topic: "cmnd/thermostat/POWER2"
+    state_topic: "stat/thermostat/POWER2"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  - platform: mqtt
+    name: "Upstairs AC"
+    command_topic: "cmnd/thermostat/POWER3"
+    state_topic: "stat/thermostat/POWER3"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  - platform: mqtt
+    name: "Upstairs Furnace"
+    command_topic: "cmnd/thermostat/POWER4"
+    state_topic: "stat/thermostat/POWER4"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false       
+    
+    
