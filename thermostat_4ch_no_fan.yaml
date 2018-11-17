@@ -290,7 +290,7 @@ climate:
   - platform: generic_thermostat
     name: Downstairs AC
     heater: switch.downstairs_air_call
-    target_sensor: sensor.upstairs_temp
+    target_sensor: sensor.downstairs_temp
     min_temp: 65
     max_temp: 75
     initial_operation_mode: "off"    
@@ -306,7 +306,7 @@ climate:
   - platform: generic_thermostat
     name: Downstairs Furnace
     heater: switch.downstairs_furnace_call
-    target_sensor: sensor.upstairs_temp
+    target_sensor: sensor.downstairs_temp
     min_temp: 65
     max_temp: 75
     min_cycle_duration:
