@@ -16,11 +16,123 @@ homeassistant:
       icon: mdi:air-conditioner
     climate.downstairs_heat:
       icon: mdi:radiator
-      
+    downstairs_heater:
+      hidden: true
+    downstairs_air:
+      hidden: true
+    upstairs_heater:
+      hidden: true
+    upstairs_air:
+      hidden: true
+
+    
 automation:   
 
 ## No Automations for Fan Switches Required In This Configuration!!
 
+##########################################################
+##                                                      ##
+##              ALEXA COMMANDS TO SET MODES             ##
+##       alexa, turn on down(up)stairs air, heater      ##
+##                                                      ##
+##########################################################
+
+  - id: alexa_heat_downstairs
+    alias: set operation mode to heat via alexa - downstairs
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.downstairs_heater
+      to: 'on'
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_ac
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_heat
+          operation_mode: 'heat'
+        
+  - id: alexa_ac_downstairs
+    alias: set operation mode to cool via alexa - downstairs
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.downstairs_air
+      to: 'on'
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_ac
+          operation_mode: 'cool'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_heat
+          operation_mode: 'off' 
+        
+  - id: alexa_heat_upstairs
+    alias: set operation mode to heat via alexa - upstairs
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.upstairs_heater
+      to: 'on'
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_ac
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_heat
+          operation_mode: 'heat'
+
+  - id: alexa_ac_upstairs
+    alias: set operation mode to cool via alexa - upstairs
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: input_boolean.upstairs_air
+      to: 'on'
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_ac
+          operation_mode: 'cool'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_heat
+          operation_mode: 'off'  
+
+
+  - id: alexa_boolean_resets
+    alias: reset all alexa booleans
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: input_boolean.downstairs_air
+        to: 'on'
+      - platform: state
+        entity_id: input_boolean.downstairs_heater  
+        to: 'on'        
+      - platform: state
+        entity_id: input_boolean.upstairs_air
+        to: 'on'
+      - platform: state
+        entity_id: input_boolean.upstairs_heater
+        to: 'on'
+    action:
+      - delay: 00:00:05
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.downstairs_air
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.downstairs_heater
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.upstairs_air
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.upstairs_heater
+        
 ##########################################################
 ##                                                      ##
 ##       SET OPERATION MODES BASED ON OUTSIDE TEMPS     ##
@@ -28,8 +140,48 @@ automation:
 ##                                                      ##
 ##########################################################
 
-  - id: its_cold_outside
-    alias: set operation mode to heat
+  - id: its_cold_outside_downstairs
+    alias: set operation mode to heat - downstairs
+    initial_state: true
+    trigger:
+      platform: homeassistant
+      event: start
+    condition:
+      condition: numeric_state
+      entity_id: sensor.dark_sky_apparent_temperature
+      below: 60
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_ac
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_heat
+          operation_mode: 'heat'
+          
+  - id: its_hot_outside_downstairs
+    alias: set operation mode to cool - downstairs
+    initial_state: true
+    trigger:
+      platform: homeassistant
+      event: start
+    condition:
+      condition: numeric_state
+      entity_id: sensor.dark_sky_apparent_temperature
+      above: 80
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_ac
+          operation_mode: 'cool'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_heat
+          operation_mode: 'off' 
+
+  - id: its_cold_outside_upstairs
+    alias: set operation mode to heat - upstairs
     initial_state: true
     trigger:
       platform: homeassistant
@@ -47,8 +199,9 @@ automation:
         data:
           entity_id: climate.upstairs_heat
           operation_mode: 'heat'
-  - id: its_hot_outside
-    alias: set operation mode to cool
+          
+  - id: its_hot_outside_upstairs
+    alias: set operation mode to cool - upstairs
     initial_state: true
     trigger:
       platform: homeassistant
@@ -67,44 +220,7 @@ automation:
           entity_id: climate.upstairs_heat
           operation_mode: 'off'  
 
-  - id: its_cold_outside
-    alias: set operation mode to heat
-    initial_state: true
-    trigger:
-      platform: homeassistant
-      event: start
-    condition:
-      condition: numeric_state
-      entity_id: sensor.dark_sky_apparent_temperature
-      below: 60
-    action:
-      - service: climate.set_operation_mode
-        data:
-          entity_id: climate.downstairs_ac
-          operation_mode: 'off'
-      - service: climate.set_operation_mode
-        data:
-          entity_id: climate.downstairs_heat
-          operation_mode: 'heat'
-  - id: its_hot_outside
-    alias: set operation mode to cool
-    initial_state: true
-    trigger:
-      platform: homeassistant
-      event: start
-    condition:
-      condition: numeric_state
-      entity_id: sensor.dark_sky_apparent_temperature
-      above: 80
-    action:
-      - service: climate.set_operation_mode
-        data:
-          entity_id: climate.downstairs_ac
-          operation_mode: 'cool'
-      - service: climate.set_operation_mode
-        data:
-          entity_id: climate.downstairs_heat
-          operation_mode: 'off' 
+
           
 ##########################################################
 ##                                                      ##
@@ -125,6 +241,7 @@ automation:
         data:
           entity_id: climate.downstairs_ac
           operation_mode: 'off'
+          
 ## Turning AC Thermostat On Turns Off Heat Thermostat - Downstairs
   - id: Downstairs_AC_Mode
     alias: Downstairs AC Disables Heat
@@ -150,6 +267,7 @@ automation:
         data:
           entity_id: climate.upstairs_ac
           operation_mode: 'off'
+          
 ## Turning AC Thermostat On Turns Off Heat Thermostat - Upstairs
   - id: Upstairs_AC_Mode
     alias: Upstairs AC Disables Heat
@@ -171,11 +289,11 @@ climate:
 ## Downstairs AC Thermostat
   - platform: generic_thermostat
     name: Downstairs AC
-    heater: switch.downstairs_ac
-    target_sensor: sensor.downstairs_temp
+    heater: switch.downstairs_air_call
+    target_sensor: sensor.upstairs_temp
     min_temp: 65
     max_temp: 75
-    initial_operation_mode: "auto"    
+    initial_operation_mode: "off"    
     min_cycle_duration:
       minutes: 10
     target_temp: 73
@@ -187,8 +305,8 @@ climate:
 ## Downstairs Heat Thermostat
   - platform: generic_thermostat
     name: Downstairs Heat
-    heater: switch.downstairs_furnace
-    target_sensor: sensor.downstairs_temp
+    heater: switch.downstairs_furnace_call
+    target_sensor: sensor.upstairs_temp
     min_temp: 65
     max_temp: 75
     min_cycle_duration:
@@ -202,11 +320,11 @@ climate:
 ## Upstairs AC Thermostat
   - platform: generic_thermostat
     name: Upstairs AC
-    heater: switch.upstairs_ac
+    heater: switch.upstairs_air_call
     target_sensor: sensor.upstairs_temp
     min_temp: 65
     max_temp: 75
-    initial_operation_mode: "auto"    
+    initial_operation_mode: "off"    
     min_cycle_duration:
       minutes: 10
     target_temp: 73
@@ -218,7 +336,7 @@ climate:
 ## Upstairs Heat Thermostat
   - platform: generic_thermostat
     name: Upstairs Heat
-    heater: switch.upstairs_furnace
+    heater: switch.upstairs_furnace_call
     target_sensor: sensor.upstairs_temp
     min_temp: 65
     max_temp: 75
@@ -229,8 +347,6 @@ climate:
     away_temp: 67
     cold_tolerance: 0.5
     hot_tolerance: 0.5
-    
-
 
 
 ## Groups For Entities In This Package 
@@ -243,12 +359,11 @@ group:
      - climate.downstairs_heat
      - climate.upstairs_ac
      - climate.upstairs_heat
-
        
 ## Thermostat Switches For Climate Control          
 switch:
   - platform: mqtt
-    name: "Downstairs AC"
+    name: "Downstairs Air Call"
     command_topic: "cmnd/thermostat/POWER1"
     state_topic: "stat/thermostat/POWER1"
     qos: 1
@@ -256,7 +371,7 @@ switch:
     payload_off: "OFF"
     retain: false
   - platform: mqtt
-    name: "Downstairs Furnace"
+    name: "Downstairs Furnace Call"
     command_topic: "cmnd/thermostat/POWER2"
     state_topic: "stat/thermostat/POWER2"
     qos: 1
@@ -264,7 +379,7 @@ switch:
     payload_off: "OFF"
     retain: false
   - platform: mqtt
-    name: "Upstairs AC"
+    name: "Upstairs Air Call"
     command_topic: "cmnd/thermostat/POWER3"
     state_topic: "stat/thermostat/POWER3"
     qos: 1
@@ -272,7 +387,7 @@ switch:
     payload_off: "OFF"
     retain: false
   - platform: mqtt
-    name: "Upstairs Furnace"
+    name: "Upstairs Furnace Call"
     command_topic: "cmnd/thermostat/POWER4"
     state_topic: "stat/thermostat/POWER4"
     qos: 1
@@ -280,4 +395,14 @@ switch:
     payload_off: "OFF"
     retain: false       
     
+input_boolean:
+  downstairs_heater:
+    name: Downstairs Heater
+  downstairs_air:
+    name: Downstairs Air
+  upstairs_heater:
+    name: Upstairs Heater
+  upstairs_air:
+    name: Upstairs Air
+  
     
