@@ -20,7 +20,92 @@ homeassistant:
 automation:   
 
 ## No Automations for Fan Switches Required In This Configuration!!
-      
+
+##########################################################
+##                                                      ##
+##       SET OPERATION MODES BASED ON OUTSIDE TEMPS     ##
+##         overide initial_operation mode setting       ##
+##                                                      ##
+##########################################################
+
+  - id: its_cold_outside
+    alias: set operation mode to heat
+    initial_state: true
+    trigger:
+      platform: homeassistant
+      event: start
+    condition:
+      condition: numeric_state
+      entity_id: sensor.dark_sky_apparent_temperature
+      below: 60
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_ac
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_heat
+          operation_mode: 'heat'
+  - id: its_hot_outside
+    alias: set operation mode to cool
+    initial_state: true
+    trigger:
+      platform: homeassistant
+      event: start
+    condition:
+      condition: numeric_state
+      entity_id: sensor.dark_sky_apparent_temperature
+      above: 80
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_ac
+          operation_mode: 'cool'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_heat
+          operation_mode: 'off'  
+
+  - id: its_cold_outside
+    alias: set operation mode to heat
+    initial_state: true
+    trigger:
+      platform: homeassistant
+      event: start
+    condition:
+      condition: numeric_state
+      entity_id: sensor.dark_sky_apparent_temperature
+      below: 60
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_ac
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_heat
+          operation_mode: 'heat'
+  - id: its_hot_outside
+    alias: set operation mode to cool
+    initial_state: true
+    trigger:
+      platform: homeassistant
+      event: start
+    condition:
+      condition: numeric_state
+      entity_id: sensor.dark_sky_apparent_temperature
+      above: 80
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_ac
+          operation_mode: 'cool'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_heat
+          operation_mode: 'off' 
+          
 ##########################################################
 ##                                                      ##
 ##       ONLY ONE SYSTEM AT A TIME, AC OR HEAT          ##
@@ -77,9 +162,9 @@ automation:
         data:
           entity_id: climate.upstairs_heat
           operation_mode: 'off'
-
-
           
+
+           
 ## THERMOSTATS CONFIGURATION          
 climate:
 
