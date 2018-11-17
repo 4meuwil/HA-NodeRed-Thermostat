@@ -1,10 +1,18 @@
 homeassistant:
   customize:
+    climate.upstairs_ac:
+      icon: mdi:air-conditioner
+    climate.upstairs_heat:
+      icon: mdi:radiator
+    switch.upstairs_fan:
+      icon: mdi:fan
+    climate.downstairs_ac:
+      icon: mdi:air-conditioner
+    climate.downstairs_heat:
+      icon: mdi:radiator
     switch.downstairs_fan:
       icon: mdi:fan
-    swithc.upstairs_fan:
-      icon: mdi:fan
-
+      
 ## AUTOMATIONS FOR FAN CALL AND TO AVOID SYSTEM CONFLICTS
 automation:         
 ## Downstairs AC Call On/Off Controls Fan Switch
