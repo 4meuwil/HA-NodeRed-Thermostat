@@ -18,7 +18,7 @@ automation:
 ## Downstairs AC Call On/Off Controls Fan Switch
   - id: Downstairs_AC_On
     alias: Downstairs AC On Turn Downstairs Fan On
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: state
         entity_id: switch.downstairs_ac
@@ -28,7 +28,7 @@ automation:
         entity_id: switch.downstairs_fan
   - id: Downstairs_AC_Off
     alias: Downstairs AC Off Turn Downstairs Fan Off
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: state
         entity_id: switch.downstairs_ac
@@ -40,7 +40,7 @@ automation:
 ## Upstairs AC Call On/Off Controls Fan Switch
   - id: Upstairs_AC_On
     alias: Upstairs AC On Turn Upstairs Fan On
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: state
         entity_id: switch.upstairs_ac
@@ -50,7 +50,7 @@ automation:
         entity_id: switch.upstairs_fan
   - id: Upstairs_AC_Off
     alias: Upstairs AC Off Turn Upstairs Fan Off
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: state
         entity_id: switch.upstairs_ac
@@ -71,7 +71,7 @@ automation:
 ## Turning Heat Thermostat On Turns Off AC Thermostat - Downstairs
   - id: Downstairs_Heat_Mode
     alias: Downstairs Heat Disables AC
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: template
         value_template: "{{ (states.climate.downstairs_heat.attributes.operation_mode) == 'heat' }}"
@@ -83,7 +83,7 @@ automation:
 ## Turning AC Thermostat On Turns Off Heat Thermostat - Downstairs
   - id: Downstairs_AC_Mode
     alias: Downstairs AC Disables Heat
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: template
         value_template: "{{ (states.climate.downstairs_ac.attributes.operation_mode) == 'cool' }}"
@@ -96,7 +96,7 @@ automation:
 ## Turning Heat Thermostat On Turns Off AC Thermostat - Upstairs
   - id: Upstairs_Heat_Mode
     alias: Upstairs Heat Disables AC
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: template
         value_template: "{{ (states.climate.upstairs_heat.attributes.operation_mode) == 'heat' }}"
@@ -108,7 +108,7 @@ automation:
 ## Turning AC Thermostat On Turns Off Heat Thermostat - Upstairs
   - id: Upstairs_AC_Mode
     alias: Upstairs AC Disables Heat
-    initial_state: 'on'
+    initial_state: true
     trigger:
       - platform: template
         value_template: "{{ (states.climate.upstairs_ac.attributes.operation_mode) == 'cool' }}"
