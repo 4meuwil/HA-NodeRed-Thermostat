@@ -6,6 +6,17 @@
 ## 3 - (N.C. - empty) (COM - 24v Red Wire from Upstairs Unit) (N.O. - AC/Fan Call yellow & green wires together)
 ## 4 - (N.C. - empty) (COM - 24v Red Wire from Upstairs Unit) (N.O. - Heat Call white wire)
 
+homeassistant:
+  customize:
+    climate.upstairs_ac:
+      icon: mdi:air-conditioner
+    climate.upstairs_heat:
+      icon: mdi:radiator
+    climate.downstairs_ac:
+      icon: mdi:air-conditioner
+    climate.downstairs_heat:
+      icon: mdi:radiator
+      
 automation:   
 
 ## No Automations for Fan Switches Required In This Configuration!!
@@ -139,16 +150,12 @@ climate:
 
 ## Groups For Entities In This Package 
 group:
-  down_thermostat:
-    name: Downstairs AC/Heat
+  thermostats:
+    name: Thermostats
     view: no
     entities:
      - climate.downstairs_ac
      - climate.downstairs_heat
-  up_thermostat:
-    name: Upstairs AC/Heat
-    view: no
-    entities:        
      - climate.upstairs_ac
      - climate.upstairs_heat
 
