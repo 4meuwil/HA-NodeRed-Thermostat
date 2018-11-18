@@ -438,29 +438,20 @@ input_boolean:
     
 ## Groups For Entities In This Package 
 group:
-  down_thermostat:
-    name: Downstairs AC/Heat
+  thermostats:
+    name: Thermostat Control
     view: no
     entities:
      - climate.downstairs_ac
      - climate.downstairs_heat
-     - switch.downstairs_fan
-  up_thermostat:
-    name: Upstairs AC/Heat
-    view: no
-    entities:        
+     - switch.downstairs_fan        
      - climate.upstairs_ac
      - climate.upstairs_furnace
      - switch.upstairs_fan
-  thermostat_control:
-    name: Thermostats Control
-    view: no
-    entities:
      - input_boolean.climate_select_mode
      - input_boolean.climate_disable_systems
      
-
-        
+      
 ## Thermostat Switches For Climate Control          
 switch:
   - platform: mqtt
