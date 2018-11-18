@@ -16,51 +16,44 @@ homeassistant:
       icon: mdi:air-conditioner
     climate.downstairs_furnace:
       icon: mdi:radiator
-    input_boolean.downstairs_heat:
-      hidden: true
-    input_boolean.downstairs_air:
-      hidden: true
-    input_boolean.upstairs_heat:
-      hidden: true
-    input_boolean.upstairs_air:
-      hidden: true
-
+    input_boolean.climate_disable_systems:
+      icon: mdi:toggle-switch-off-outline
+    input_boolean.climate_select_mode:
+      icon: mdi:toggle-switch-off-outline    
     
 automation:   
 
-## No Automations for Fan Switches Required In This Configuration!!
+## Note: No Automations for Fan Switches Required In This Configuration!!
 
-##########################################################
-##                                                      ##
-##              ALEXA COMMANDS TO SET MODES             ##
-##       alexa, turn on down(up)stairs air, heat        ##
-##                                                      ##
-##########################################################
-
-  - id: alexa_heat_downstairs
-    alias: set operation mode to heat via alexa - downstairs
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: input_boolean.downstairs_heat
-      to: 'on'
-    action:
-      - service: climate.set_operation_mode
-        data:
-          entity_id: climate.downstairs_ac
-          operation_mode: 'off'
-      - service: climate.set_operation_mode
-        data:
-          entity_id: climate.downstairs_furnace
-          operation_mode: 'heat'
+## For Alexa make 4 routines - 
+## Alexa, turn on the air - input_boolean.climate_select_mode - off
+## Alexa, turn on the heat - input_boolean.climate_select_mode - on
+## Alexa, turn off thermostats - input_boolean.climate_disable_systems - on
+## Alexa, turn on thermostats - input_boolean.climate_disable_systems - off
         
-  - id: alexa_ac_downstairs
-    alias: set operation mode to cool via alexa - downstairs
+##########################################################
+##                                                      ##
+##         OPERATION MODES - HA START, RESTART          ##
+##                                                      ##
+##########################################################
+
+## Set Both Systems To AC On Start If Set To AC Mode
+
+  - id: ac_mode_restart
+    alias: climate ac mode restart
     initial_state: true
     trigger:
-      platform: state
-      entity_id: input_boolean.downstairs_air
-      to: 'on'
+      platform: homeassistant
+      event: start
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.climate_disable_systems
+          state: 'off'
+        - condition: state
+          entity_id: input_boolean.climate_select_mode
+          state: 'off'
     action:
       - service: climate.set_operation_mode
         data:
@@ -69,33 +62,7 @@ automation:
       - service: climate.set_operation_mode
         data:
           entity_id: climate.downstairs_furnace
-          operation_mode: 'off' 
-        
-  - id: alexa_heat_upstairs
-    alias: set operation mode to heat via alexa - upstairs
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: input_boolean.upstairs_heat
-      to: 'on'
-    action:
-      - service: climate.set_operation_mode
-        data:
-          entity_id: climate.upstairs_ac
           operation_mode: 'off'
-      - service: climate.set_operation_mode
-        data:
-          entity_id: climate.upstairs_furnace
-          operation_mode: 'heat'
-
-  - id: alexa_ac_upstairs
-    alias: set operation mode to cool via alexa - upstairs
-    initial_state: true
-    trigger:
-      platform: state
-      entity_id: input_boolean.upstairs_air
-      to: 'on'
-    action:
       - service: climate.set_operation_mode
         data:
           entity_id: climate.upstairs_ac
@@ -103,94 +70,104 @@ automation:
       - service: climate.set_operation_mode
         data:
           entity_id: climate.upstairs_furnace
-          operation_mode: 'off'  
-
-
-  - id: alexa_boolean_resets
-    alias: reset all alexa booleans
-    initial_state: true
-    trigger:
-      - platform: state
-        entity_id: input_boolean.downstairs_air
-        to: 'on'
-      - platform: state
-        entity_id: input_boolean.downstairs_heat  
-        to: 'on'        
-      - platform: state
-        entity_id: input_boolean.upstairs_air
-        to: 'on'
-      - platform: state
-        entity_id: input_boolean.upstairs_heat
-        to: 'on'
-    action:
-      - delay: 00:00:05
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.downstairs_air
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.downstairs_heat
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.upstairs_air
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.upstairs_heat
-        
-##########################################################
-##                                                      ##
-##       SET OPERATION MODES BASED ON OUTSIDE TEMPS     ##
-##         overide initial_operation mode setting       ##
-##                                                      ##
-##########################################################
-
-  - id: its_cold_outside_downstairs
-    alias: set operation mode to heat - downstairs
-    initial_state: true
-    trigger:
-      platform: homeassistant
-      event: start
-    condition:
-      condition: numeric_state
-      entity_id: sensor.dark_sky_apparent_temperature
-      below: 60
-    action:
-      - service: climate.set_operation_mode
-        data:
-          entity_id: climate.downstairs_ac
-          operation_mode: 'off'
-      - service: climate.set_operation_mode
-        data:
-          entity_id: climate.downstairs_furnace
-          operation_mode: 'heat'
-          
-  - id: its_hot_outside_downstairs
-    alias: set operation mode to cool - downstairs
-    initial_state: true
-    trigger:
-      platform: homeassistant
-      event: start
-    condition:
-      condition: numeric_state
-      entity_id: sensor.dark_sky_apparent_temperature
-      above: 80
-    action:
-      - service: climate.set_operation_mode
-        data:
-          entity_id: climate.downstairs_ac
-          operation_mode: 'cool'
-      - service: climate.set_operation_mode
-        data:
-          entity_id: climate.downstairs_furnace
           operation_mode: 'off' 
 
-  - id: its_cold_outside_upstairs
-    alias: set operation mode to heat - upstairs
+## Set Both Systems To Heat On Start If Set To Heat Mode          
+          
+  - id: heat_mode_restart
+    alias: climate heat mode restart
     initial_state: true
     trigger:
       platform: homeassistant
       event: start
     condition:
-      condition: numeric_state
-      entity_id: sensor.dark_sky_apparent_temperature
-      below: 60
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.climate_disable_systems
+          state: 'off'
+        - condition: state
+          entity_id: input_boolean.climate_select_mode
+          state: 'on'
     action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_ac
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_furnace
+          operation_mode: 'heat'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_ac
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_furnace
+          operation_mode: 'heat'          
+
+##########################################################
+##                                                      ##
+##           OPERATION MODES - MANUAL SWITCHES          ##
+##                                                      ##
+##########################################################          
+
+## Set Both Systems to AC On Mode Change
+             
+  - id: ac_mode_switch
+    alias: climate ac mode switch
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: input_boolean.climate_select_mode
+        from: 'on'
+        to: 'off'
+    condition:
+      condition: state
+      entity_id: input_boolean.climate_disable_systems
+      state: 'off'
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_ac
+          operation_mode: 'cool'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_furnace
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_ac
+          operation_mode: 'cool'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_furnace
+          operation_mode: 'off'
+
+## Set Both Systems to Heat On Mode Change                  
+          
+  - id: heat_mode_switch
+    alias: climate heat mode switch
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: input_boolean.climate_select_mode
+        from: 'off'
+        to: 'on'
+    condition:
+      condition: state
+      entity_id: input_boolean.climate_disable_systems
+      state: 'off'
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_ac
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_furnace
+          operation_mode: 'heat'
       - service: climate.set_operation_mode
         data:
           entity_id: climate.upstairs_ac
@@ -199,18 +176,58 @@ automation:
         data:
           entity_id: climate.upstairs_furnace
           operation_mode: 'heat'
+
+## Disable All Systems - Windows Open, Service Etc.          
           
-  - id: its_hot_outside_upstairs
-    alias: set operation mode to cool - upstairs
+  - id: disable_climate_systems
+    alias: climate disable systems
     initial_state: true
     trigger:
-      platform: homeassistant
-      event: start
-    condition:
-      condition: numeric_state
-      entity_id: sensor.dark_sky_apparent_temperature
-      above: 80
+      - platform: state
+        entity_id: input_boolean.climate_disable_systems
+        from: 'off'
+        to: 'on'
     action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_ac
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_furnace
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_ac
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_furnace
+          operation_mode: 'off'
+
+## Restore Both Systems When Renabled According To Your Mode Selection          
+
+  - id: restore_climate_systems_ac
+    alias: climate restore systems ac
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: input_boolean.climate_disable_systems
+        from: 'on'
+        to: 'off'
+    condition:
+      condition: state
+      entity_id: input_boolean.climate_select_mode
+      state: 'off'
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_ac
+          operation_mode: 'cool'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_furnace
+          operation_mode: 'off'
       - service: climate.set_operation_mode
         data:
           entity_id: climate.upstairs_ac
@@ -218,10 +235,39 @@ automation:
       - service: climate.set_operation_mode
         data:
           entity_id: climate.upstairs_furnace
-          operation_mode: 'off'  
+          operation_mode: 'off'   
 
+  - id: restore_climate_systems_heat
+    alias: climate restore systems heat
+    initial_state: true
+    trigger:
+      - platform: state
+        entity_id: input_boolean.climate_disable_systems
+        from: 'on'
+        to: 'off'
+    condition:
+      condition: state
+      entity_id: input_boolean.climate_select_mode
+      state: 'on'
+    action:
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_ac
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.downstairs_furnace
+          operation_mode: 'heat'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_ac
+          operation_mode: 'off'
+      - service: climate.set_operation_mode
+        data:
+          entity_id: climate.upstairs_furnace
+          operation_mode: 'heat'
 
-          
+                    
 ##########################################################
 ##                                                      ##
 ##       ONLY ONE SYSTEM AT A TIME, AC OR FURNACE       ##
@@ -230,8 +276,8 @@ automation:
 ##########################################################
 
 ## Turning Furnace Thermostat On Turns Off AC Thermostat - Downstairs
-  - id: Downstairs_Furnace_Mode
-    alias: Downstairs Furnace Disables AC
+  - id: Climate Downstairs_Furnace_Mode
+    alias: Climate Downstairs Furnace Disables AC
     initial_state: true
     trigger:
       - platform: template
@@ -243,8 +289,8 @@ automation:
           operation_mode: 'off'
           
 ## Turning AC Thermostat On Turns Off Furnace Thermostat - Downstairs
-  - id: Downstairs_AC_Mode
-    alias: Downstairs AC Disables Furnace
+  - id: Climate Downstairs_AC_Mode
+    alias: Climate Downstairs AC Disables Furnace
     initial_state: true
     trigger:
       - platform: template
@@ -256,7 +302,7 @@ automation:
           operation_mode: 'off'
                 
 ## Turning Furnace Thermostat On Turns Off AC Thermostat - Upstairs
-  - id: Upstairs_Furnace_Mode
+  - id: Climate Upstairs_Furnace_Mode
     alias: Upstairs Furnace Disables AC
     initial_state: true
     trigger:
@@ -269,8 +315,8 @@ automation:
           operation_mode: 'off'
           
 ## Turning AC Thermostat On Turns Off Furnace Thermostat - Upstairs
-  - id: Upstairs_AC_Mode
-    alias: Upstairs AC Disables Furnace
+  - id: Climate Upstairs_AC_Mode
+    alias: Climate Upstairs AC Disables Furnace
     initial_state: true
     trigger:
       - platform: template
@@ -283,7 +329,7 @@ automation:
           
 
            
-## THERMOSTATS CONFIGURATION          
+## THERMOSTATS & CONFIGURATION          
 climate:
 
 ## Downstairs AC Thermostat
@@ -311,7 +357,7 @@ climate:
     max_temp: 75
     min_cycle_duration:
       minutes: 15
-    initial_operation_mode: "off"
+    initial_operation_mode: "auto"
     target_temp: 70
     away_temp: 67
     cold_tolerance: 0.5
@@ -342,7 +388,7 @@ climate:
     max_temp: 75
     min_cycle_duration:
       minutes: 15
-    initial_operation_mode: "off"
+    initial_operation_mode: "auto"
     target_temp: 70
     away_temp: 67
     cold_tolerance: 0.5
@@ -352,14 +398,25 @@ climate:
 ## Groups For Entities In This Package 
 group:
   thermostats:
-    name: Thermostats
+    name: Thermostat Control
+    control: hidden
     view: no
     entities:
      - climate.downstairs_ac
      - climate.downstairs_furnace
      - climate.upstairs_ac
      - climate.upstairs_furnace
-       
+     - input_boolean.climate_select_mode
+     - input_boolean.climate_disable_systems
+
+## Boolean for Alexa/User to Control Both Systems
+input_boolean:
+  climate_select_mode:
+    name: Climate Mode - Off=AC   On=Heat    
+  climate_disable_systems:
+    name: Disable HVAC Systems
+
+    
 ## Thermostat Switches For Climate Control          
 switch:
   - platform: mqtt
@@ -395,14 +452,5 @@ switch:
     payload_off: "OFF"
     retain: false       
     
-input_boolean:
-  downstairs_heat:
-    name: Downstairs Heat
-  downstairs_air:
-    name: Downstairs Air
-  upstairs_heat:
-    name: Upstairs Heat
-  upstairs_air:
-    name: Upstairs Air
-  
+
     
