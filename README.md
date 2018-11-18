@@ -1,7 +1,7 @@
 # HA-Thermostat
 
 ## Home Assistant Thermostat Packages - Generic Thermostat Component ##
-Both of these packages are for a dual unit home, but could modified easily
+Both of these packages are for a dual unit home, but could be modified easily
 
 Both packages include mode and disable switches that sets both thermostats, can be controlled via alexa etc, and is retained during restarts!
 I always hated I lost my modes on restarts, and had to edit yaml when the climate changed.
