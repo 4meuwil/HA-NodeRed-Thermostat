@@ -31,6 +31,7 @@ IMPORTANT - Both packages include an automation to prevent both AC and Furnace f
 includes the above automations, and fan control (call fan with AC)
 
 "thermostat_4ch_no_fan.yaml" is all of the above goodies but adjusted to run a dual unit home with a sonoff 4ch, no manual fan control! (my setup)
-
+https://youtu.be/hOFvbdYkOII - great video on flashing the 4chpro...I got it forst try with tasmota 6.2.1
+https://github.com/arendst/Sonoff-Tasmota/wiki/Sonoff-4CH-and-4CH-Pro - see bottom for dipswitch settings
 
 
