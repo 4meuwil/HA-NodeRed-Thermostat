@@ -1,0 +1,600 @@
+[
+    {
+        "id": "1261a2e.e82815d",
+        "type": "status",
+        "z": "3a23a56a.35ebca",
+        "name": "Restart",
+        "scope": [
+            "d2db4815.6340b8"
+        ],
+        "x": 65,
+        "y": 1905,
+        "wires": [
+            [
+                "f6229a51.f4ff18"
+            ]
+        ]
+    },
+    {
+        "id": "f6229a51.f4ff18",
+        "type": "switch",
+        "z": "3a23a56a.35ebca",
+        "name": "connected",
+        "property": "status.text",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "connected",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 115,
+        "y": 1950,
+        "wires": [
+            [
+                "6ea2b92e.88e2f8"
+            ]
+        ]
+    },
+    {
+        "id": "6ea2b92e.88e2f8",
+        "type": "delay",
+        "z": "3a23a56a.35ebca",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "2",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 150,
+        "y": 1995,
+        "wires": [
+            [
+                "5b1a06b8.3d81d8",
+                "1e07901c.b8bc",
+                "26723c1e.efcb34",
+                "5b8575f9.e88dfc"
+            ]
+        ]
+    },
+    {
+        "id": "78aaa1f6.38b8c",
+        "type": "comment",
+        "z": "3a23a56a.35ebca",
+        "name": "Thermostat Temperature Hold On Restarts",
+        "info": "",
+        "x": 175,
+        "y": 1635,
+        "wires": []
+    },
+    {
+        "id": "32fa879a.072028",
+        "type": "change",
+        "z": "3a23a56a.35ebca",
+        "name": "Temp",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "data.attributes.temperature",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 470,
+        "y": 1725,
+        "wires": [
+            [
+                "36ecc07e.6901"
+            ]
+        ]
+    },
+    {
+        "id": "dff1cd0a.a769b",
+        "type": "change",
+        "z": "3a23a56a.35ebca",
+        "name": "Save Temp Down Furnace",
+        "rules": [
+            {
+                "t": "set",
+                "p": "downstairsfurnacetemp",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 675,
+        "y": 1785,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6036379c.f15438",
+        "type": "change",
+        "z": "3a23a56a.35ebca",
+        "name": "Temp",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "data.attributes.temperature",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 470,
+        "y": 1755,
+        "wires": [
+            [
+                "588242fb.63a87c"
+            ]
+        ]
+    },
+    {
+        "id": "3c456f3c.419fa",
+        "type": "change",
+        "z": "3a23a56a.35ebca",
+        "name": "Temp",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "data.attributes.temperature",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 470,
+        "y": 1785,
+        "wires": [
+            [
+                "dff1cd0a.a769b"
+            ]
+        ]
+    },
+    {
+        "id": "7a37e1c8.cdc7",
+        "type": "change",
+        "z": "3a23a56a.35ebca",
+        "name": "Temp",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "data.attributes.temperature",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 470,
+        "y": 1815,
+        "wires": [
+            [
+                "1489bb6.f440f45"
+            ]
+        ]
+    },
+    {
+        "id": "36ecc07e.6901",
+        "type": "change",
+        "z": "3a23a56a.35ebca",
+        "name": "Save Temp Down AC",
+        "rules": [
+            {
+                "t": "set",
+                "p": "downstairsactemp",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 655,
+        "y": 1725,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "588242fb.63a87c",
+        "type": "change",
+        "z": "3a23a56a.35ebca",
+        "name": "Save Temp Up AC",
+        "rules": [
+            {
+                "t": "set",
+                "p": "upstairsactemp",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 645,
+        "y": 1755,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1489bb6.f440f45",
+        "type": "change",
+        "z": "3a23a56a.35ebca",
+        "name": "Save Temp Up Furnace",
+        "rules": [
+            {
+                "t": "set",
+                "p": "upstairsfurnacetemp",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 665,
+        "y": 1815,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5b1a06b8.3d81d8",
+        "type": "function",
+        "z": "3a23a56a.35ebca",
+        "name": "Downstairs Furance Temp Set",
+        "func": "msg.payload =\n{\n    \"data\": {\n        \"entity_id\": \"climate.downstairs_furnace\",\n        \"temperature\": flow.get(\"downstairsfurnacetemp\")\n        }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 385,
+        "y": 1965,
+        "wires": [
+            [
+                "4b3dce6.185793"
+            ]
+        ]
+    },
+    {
+        "id": "4b3dce6.185793",
+        "type": "api-call-service",
+        "z": "3a23a56a.35ebca",
+        "name": "",
+        "server": "ce92a38f.164d4",
+        "service_domain": "climate",
+        "service": "set_temperature",
+        "data": "{}",
+        "mergecontext": "",
+        "x": 675,
+        "y": 1965,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a36373f1.c947",
+        "type": "api-current-state",
+        "z": "3a23a56a.35ebca",
+        "name": "Downstairs Furnace",
+        "server": "ce92a38f.164d4",
+        "halt_if": "",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "climate.downstairs_furnace",
+        "x": 295,
+        "y": 1785,
+        "wires": [
+            [
+                "3c456f3c.419fa"
+            ]
+        ]
+    },
+    {
+        "id": "a0d891ad.a0468",
+        "type": "inject",
+        "z": "3a23a56a.35ebca",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "300",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 85,
+        "y": 1785,
+        "wires": [
+            [
+                "a36373f1.c947"
+            ]
+        ]
+    },
+    {
+        "id": "216dbd58.fee452",
+        "type": "api-current-state",
+        "z": "3a23a56a.35ebca",
+        "name": "Upstairs AC",
+        "server": "ce92a38f.164d4",
+        "halt_if": "",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "climate.upstairs_ac",
+        "x": 265,
+        "y": 1755,
+        "wires": [
+            [
+                "6036379c.f15438"
+            ]
+        ]
+    },
+    {
+        "id": "d8e73818.8edd68",
+        "type": "inject",
+        "z": "3a23a56a.35ebca",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "300",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 85,
+        "y": 1755,
+        "wires": [
+            [
+                "216dbd58.fee452"
+            ]
+        ]
+    },
+    {
+        "id": "c214ce8c.a0172",
+        "type": "api-current-state",
+        "z": "3a23a56a.35ebca",
+        "name": "Downstairs AC",
+        "server": "ce92a38f.164d4",
+        "halt_if": "",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "climate.downstairs_ac",
+        "x": 275,
+        "y": 1725,
+        "wires": [
+            [
+                "32fa879a.072028"
+            ]
+        ]
+    },
+    {
+        "id": "7a0d74d9.79b8cc",
+        "type": "inject",
+        "z": "3a23a56a.35ebca",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "300",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 85,
+        "y": 1725,
+        "wires": [
+            [
+                "c214ce8c.a0172"
+            ]
+        ]
+    },
+    {
+        "id": "e5667798.0ab0d8",
+        "type": "api-current-state",
+        "z": "3a23a56a.35ebca",
+        "name": "Upstairs Furnace",
+        "server": "ce92a38f.164d4",
+        "halt_if": "",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "climate.upstairs_furnace",
+        "x": 285,
+        "y": 1815,
+        "wires": [
+            [
+                "7a37e1c8.cdc7"
+            ]
+        ]
+    },
+    {
+        "id": "c2b0e6b2.f30498",
+        "type": "inject",
+        "z": "3a23a56a.35ebca",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "300",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 85,
+        "y": 1815,
+        "wires": [
+            [
+                "e5667798.0ab0d8"
+            ]
+        ]
+    },
+    {
+        "id": "e76b4d6a.f6811",
+        "type": "comment",
+        "z": "3a23a56a.35ebca",
+        "name": "Save User Hold Temp Every 5 Minutes",
+        "info": "",
+        "x": 165,
+        "y": 1680,
+        "wires": []
+    },
+    {
+        "id": "a8b239df.8f5588",
+        "type": "comment",
+        "z": "3a23a56a.35ebca",
+        "name": "Restart Restores Hold Temps In Home Assistant",
+        "info": "",
+        "x": 195,
+        "y": 1860,
+        "wires": []
+    },
+    {
+        "id": "5b8575f9.e88dfc",
+        "type": "function",
+        "z": "3a23a56a.35ebca",
+        "name": "Upstairs Furance Temp Set",
+        "func": "msg.payload =\n{\n    \"data\": {\n        \"entity_id\": \"climate.upstairs_furnace\",\n        \"temperature\": flow.get(\"upstairsfurnacetemp\")\n        }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 375,
+        "y": 1995,
+        "wires": [
+            [
+                "70a2d380.60d3bc"
+            ]
+        ]
+    },
+    {
+        "id": "70a2d380.60d3bc",
+        "type": "api-call-service",
+        "z": "3a23a56a.35ebca",
+        "name": "",
+        "server": "ce92a38f.164d4",
+        "service_domain": "climate",
+        "service": "set_temperature",
+        "data": "{}",
+        "mergecontext": "",
+        "x": 675,
+        "y": 1995,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "26723c1e.efcb34",
+        "type": "function",
+        "z": "3a23a56a.35ebca",
+        "name": "Upstairs AC Temp Set",
+        "func": "msg.payload =\n{\n    \"data\": {\n        \"entity_id\": \"climate.upstairs_ac\",\n        \"temperature\": flow.get(\"upstairsactemp\")\n        }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 355,
+        "y": 1935,
+        "wires": [
+            [
+                "e5245394.5469f"
+            ]
+        ]
+    },
+    {
+        "id": "e5245394.5469f",
+        "type": "api-call-service",
+        "z": "3a23a56a.35ebca",
+        "name": "",
+        "server": "ce92a38f.164d4",
+        "service_domain": "climate",
+        "service": "set_temperature",
+        "data": "{}",
+        "mergecontext": "",
+        "x": 675,
+        "y": 1935,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1e07901c.b8bc",
+        "type": "function",
+        "z": "3a23a56a.35ebca",
+        "name": "Downstairs AC Temp Set",
+        "func": "msg.payload =\n{\n    \"data\": {\n        \"entity_id\": \"climate.downstairs_ac\",\n        \"temperature\": flow.get(\"upstairsactemp\")\n        }\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 365,
+        "y": 1905,
+        "wires": [
+            [
+                "ccc78fbe.f8dae"
+            ]
+        ]
+    },
+    {
+        "id": "ccc78fbe.f8dae",
+        "type": "api-call-service",
+        "z": "3a23a56a.35ebca",
+        "name": "",
+        "server": "ce92a38f.164d4",
+        "service_domain": "climate",
+        "service": "set_temperature",
+        "data": "{}",
+        "mergecontext": "",
+        "x": 675,
+        "y": 1905,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ce92a38f.164d4",
+        "type": "server",
+        "z": "",
+        "name": "Home Assistant",
+        "legacy": false,
+        "hassio": true,
+        "rejectUnauthorizedCerts": true
+    }
+]
