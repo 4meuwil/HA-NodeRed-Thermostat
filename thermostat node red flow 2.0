@@ -1,0 +1,2819 @@
+[
+    {
+        "id": "8992a0be.571c3",
+        "type": "tab",
+        "label": "Thermostats",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "9042974a.d046e8",
+        "type": "inject",
+        "z": "8992a0be.571c3",
+        "name": "Deploy",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "x": 75,
+        "y": 330,
+        "wires": [
+            [
+                "f1f34771.be4838"
+            ]
+        ]
+    },
+    {
+        "id": "f1f34771.be4838",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Thermostat Mode",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "input_select.thermostat_downstairs",
+        "state_type": "str",
+        "outputs": 1,
+        "x": 330,
+        "y": 375,
+        "wires": [
+            [
+                "6dcd20b1.75ad3"
+            ]
+        ]
+    },
+    {
+        "id": "6dcd20b1.75ad3",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "Air?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Air",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "Air",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 500,
+        "y": 375,
+        "wires": [
+            [
+                "5ae94ddd.7b7084",
+                "39d23a39.0bb9f6"
+            ],
+            [
+                "45a4958f.cfe8cc"
+            ]
+        ]
+    },
+    {
+        "id": "10242d00.005073",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Off",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_select.thermostat_downstairs",
+        "entityidfiltertype": "exact",
+        "debugenabled": false,
+        "constraints": [
+            {
+                "id": "o3re3hu1igr",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "current_state",
+                "propertyValue": "new_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "Off"
+            },
+            {
+                "id": "29m7nyzl98b",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "previous_state",
+                "propertyValue": "old_state.state",
+                "comparatorType": "is_not",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "Off"
+            }
+        ],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 65,
+        "y": 120,
+        "wires": [
+            [
+                "57bc7f1b.65b7f",
+                "125270ac.81aeaf"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "57bc7f1b.65b7f",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Down Air Off",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_off",
+        "data": "{\"entity_id\":\"switch.downstairs_air_call\"}",
+        "render_data": false,
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 265,
+        "y": 135,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "125270ac.81aeaf",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Down Furnace Off",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_off",
+        "data": "{\"entity_id\":\"switch.downstairs_furnace_call\"}",
+        "render_data": false,
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 285,
+        "y": 165,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ef5e8955.71e998",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Air",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_select.thermostat_downstairs",
+        "debugenabled": false,
+        "constraints": [
+            {
+                "id": "dyso8ugm40f",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "current_state",
+                "propertyValue": "new_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "Air"
+            },
+            {
+                "id": "md2ey1f45pq",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "previous_state",
+                "propertyValue": "old_state.state",
+                "comparatorType": "is_not",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "Air"
+            }
+        ],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 65,
+        "y": 150,
+        "wires": [
+            [
+                "57bc7f1b.65b7f",
+                "125270ac.81aeaf"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "e5d16231.d5f98",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Heat",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_select.thermostat_downstairs",
+        "debugenabled": false,
+        "constraints": [
+            {
+                "id": "51vbgsl04e7",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "current_state",
+                "propertyValue": "new_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "Heat"
+            },
+            {
+                "id": "i31e5gujpz",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "previous_state",
+                "propertyValue": "old_state.state",
+                "comparatorType": "is_not",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "Heat"
+            }
+        ],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 65,
+        "y": 180,
+        "wires": [
+            [
+                "57bc7f1b.65b7f",
+                "125270ac.81aeaf"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "5ae94ddd.7b7084",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Down Temp",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "sensor.average_downstairs_temp",
+        "state_type": "str",
+        "outputs": 1,
+        "x": 670,
+        "y": 330,
+        "wires": [
+            [
+                "fab8070.34a76f8"
+            ]
+        ]
+    },
+    {
+        "id": "39d23a39.0bb9f6",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Down Target",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "halt_if_type": "",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "input_number.targettemp_downstairs",
+        "state_type": "str",
+        "outputs": 1,
+        "x": 670,
+        "y": 375,
+        "wires": [
+            [
+                "a7d804a4.119808"
+            ]
+        ]
+    },
+    {
+        "id": "69d57616.728b48",
+        "type": "join",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1010,
+        "y": 345,
+        "wires": [
+            [
+                "9fd1b1a0.0dd9a"
+            ]
+        ]
+    },
+    {
+        "id": "9fd1b1a0.0dd9a",
+        "type": "function",
+        "z": "8992a0be.571c3",
+        "name": "Air",
+        "func": "if (msg.payload.down_temp - msg.payload.target_temp >= 0.5)\n{\n    msg.payload = \"air\";\n}\nelse if (msg.payload.down_temp - msg.payload.target_temp <= 0.0)\n{\n    msg.payload = \"off\";\n}\nelse\n{\n    msg.payload = \"timer\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1130,
+        "y": 345,
+        "wires": [
+            [
+                "b3070c37.36b27"
+            ]
+        ]
+    },
+    {
+        "id": "a7d804a4.119808",
+        "type": "change",
+        "z": "8992a0be.571c3",
+        "name": "target_temp",
+        "rules": [
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "input_number.targettemp_downstairs",
+                "fromt": "str",
+                "to": "target_temp",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 835,
+        "y": 375,
+        "wires": [
+            [
+                "69d57616.728b48"
+            ]
+        ]
+    },
+    {
+        "id": "fab8070.34a76f8",
+        "type": "change",
+        "z": "8992a0be.571c3",
+        "name": "down_temp",
+        "rules": [
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "sensor.average_downstairs_temp",
+                "fromt": "str",
+                "to": "down_temp",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 835,
+        "y": 330,
+        "wires": [
+            [
+                "69d57616.728b48"
+            ]
+        ]
+    },
+    {
+        "id": "b3070c37.36b27",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "air",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "timer",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 1415,
+        "y": 345,
+        "wires": [
+            [
+                "d1d5cedb.20642",
+                "1b5054a6.33073b"
+            ],
+            [
+                "a74f72ef.0dcc8",
+                "84859bd2.f5eb58"
+            ],
+            [
+                "c343b3bc.17299"
+            ]
+        ]
+    },
+    {
+        "id": "d1d5cedb.20642",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Dn Air Off",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_off",
+        "data": "{ \"entity_id\": \"switch.downstairs_air_call\" }",
+        "mergecontext": "",
+        "x": 1650,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a74f72ef.0dcc8",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Dn Air On",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_on",
+        "data": "{ \"entity_id\": \"switch.downstairs_air_call\" }",
+        "mergecontext": "",
+        "x": 1650,
+        "y": 345,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3a9c5c0b.ce3f84",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Mode Change",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_select.thermostat_downstairs",
+        "entityidfiltertype": "exact",
+        "debugenabled": false,
+        "constraints": [],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 95,
+        "y": 375,
+        "wires": [
+            [
+                "f1f34771.be4838"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "45a4958f.cfe8cc",
+        "type": "change",
+        "z": "8992a0be.571c3",
+        "name": "stop",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "stop",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 785,
+        "y": 435,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "eb2ea57f.56f738",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Temp Change",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_number.targettemp_downstairs",
+        "entityidfiltertype": "exact",
+        "debugenabled": false,
+        "constraints": [],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 95,
+        "y": 420,
+        "wires": [
+            [
+                "f1f34771.be4838"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "b0c78ed1.e41ee",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Down Temp",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "sensor.average_downstairs_temp",
+        "state_type": "str",
+        "outputs": 1,
+        "x": 685,
+        "y": 615,
+        "wires": [
+            [
+                "b165d6c3.3db4b8"
+            ]
+        ]
+    },
+    {
+        "id": "60d5bd50.64fe54",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Down Target",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "input_number.targettemp_downstairs",
+        "outputs": 1,
+        "x": 685,
+        "y": 660,
+        "wires": [
+            [
+                "8cd040bb.33b74"
+            ]
+        ]
+    },
+    {
+        "id": "b165d6c3.3db4b8",
+        "type": "change",
+        "z": "8992a0be.571c3",
+        "name": "down_temp",
+        "rules": [
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "sensor.average_downstairs_temp",
+                "fromt": "str",
+                "to": "down_temp",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 850,
+        "y": 615,
+        "wires": [
+            [
+                "a05ee70.56c7e18"
+            ]
+        ]
+    },
+    {
+        "id": "8cd040bb.33b74",
+        "type": "change",
+        "z": "8992a0be.571c3",
+        "name": "target_temp",
+        "rules": [
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "input_number.targettemp_downstairs",
+                "fromt": "str",
+                "to": "target_temp",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 850,
+        "y": 660,
+        "wires": [
+            [
+                "a05ee70.56c7e18"
+            ]
+        ]
+    },
+    {
+        "id": "a05ee70.56c7e18",
+        "type": "join",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1010,
+        "y": 630,
+        "wires": [
+            [
+                "92b31a29.3b3c08"
+            ]
+        ]
+    },
+    {
+        "id": "92b31a29.3b3c08",
+        "type": "function",
+        "z": "8992a0be.571c3",
+        "name": "Heat",
+        "func": "if (msg.payload.target_temp - msg.payload.down_temp >= 0.5)\n{\n    msg.payload = \"heat\";\n}\nelse if (msg.payload.target_temp - msg.payload.down_temp <= 0.0)\n{\n    msg.payload = \"off\";\n}\nelse\n{\n    msg.payload = \"timer\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1130,
+        "y": 630,
+        "wires": [
+            [
+                "90790412.0eff48"
+            ]
+        ]
+    },
+    {
+        "id": "90790412.0eff48",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "heat",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "timer",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 1415,
+        "y": 630,
+        "wires": [
+            [
+                "29f36a57.48f6e6",
+                "2995d5bd.28e6da"
+            ],
+            [
+                "ca5134e7.ebbb98",
+                "befaf675.b0ac78"
+            ],
+            [
+                "2db368af.b62d48"
+            ]
+        ]
+    },
+    {
+        "id": "29f36a57.48f6e6",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Dn Heat Off",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_off",
+        "data": "{\"entity_id\":\"switch.downstairs_furnace_call\"}",
+        "render_data": false,
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 1675,
+        "y": 585,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ca5134e7.ebbb98",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Dn Heat On",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_on",
+        "data": "{ \"entity_id\": \"switch.downstairs_furnace_call\" }",
+        "mergecontext": "",
+        "x": 1675,
+        "y": 630,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1dad0a77.a4da96",
+        "type": "inject",
+        "z": "8992a0be.571c3",
+        "name": "Deploy",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "x": 75,
+        "y": 615,
+        "wires": [
+            [
+                "998f02d1.e4ad4"
+            ]
+        ]
+    },
+    {
+        "id": "998f02d1.e4ad4",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Thermostat Mode",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "input_select.thermostat_downstairs",
+        "state_type": "str",
+        "outputs": 1,
+        "x": 330,
+        "y": 660,
+        "wires": [
+            [
+                "4599301.f3598d"
+            ]
+        ]
+    },
+    {
+        "id": "4599301.f3598d",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "Heat?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Heat",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "Heat",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 500,
+        "y": 660,
+        "wires": [
+            [
+                "b0c78ed1.e41ee",
+                "60d5bd50.64fe54"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "957a2411.c47c28",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Mode Change",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_select.thermostat_downstairs",
+        "entityidfiltertype": "exact",
+        "debugenabled": false,
+        "constraints": [],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 95,
+        "y": 660,
+        "wires": [
+            [
+                "998f02d1.e4ad4"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "fe0030de.499ec",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Temp Change",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_number.targettemp_downstairs",
+        "entityidfiltertype": "exact",
+        "debugenabled": false,
+        "constraints": [],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 95,
+        "y": 705,
+        "wires": [
+            [
+                "998f02d1.e4ad4"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "c87c8eb3.f52e3",
+        "type": "status",
+        "z": "8992a0be.571c3",
+        "name": "HA Restart",
+        "scope": null,
+        "x": 75,
+        "y": 570,
+        "wires": [
+            [
+                "7534c079.c3e34"
+            ]
+        ]
+    },
+    {
+        "id": "7534c079.c3e34",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "property": "status.text",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "connected",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 215,
+        "y": 570,
+        "wires": [
+            [
+                "48d40deb.ef6724"
+            ]
+        ]
+    },
+    {
+        "id": "48d40deb.ef6724",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 360,
+        "y": 570,
+        "wires": [
+            [
+                "998f02d1.e4ad4"
+            ]
+        ]
+    },
+    {
+        "id": "21bbe597.44704a",
+        "type": "comment",
+        "z": "8992a0be.571c3",
+        "name": "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Downstairs Thermostat - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ",
+        "info": "",
+        "x": 545,
+        "y": 30,
+        "wires": []
+    },
+    {
+        "id": "b4725769.2c0618",
+        "type": "comment",
+        "z": "8992a0be.571c3",
+        "name": "Mode Change - Turn Off Units",
+        "info": "",
+        "x": 135,
+        "y": 75,
+        "wires": []
+    },
+    {
+        "id": "41800785.cc4b48",
+        "type": "comment",
+        "z": "8992a0be.571c3",
+        "name": "Downstairs Air Conditioner",
+        "info": "",
+        "x": 125,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "9e18e4d1.65bc28",
+        "type": "status",
+        "z": "8992a0be.571c3",
+        "name": "HA Restart",
+        "scope": null,
+        "x": 75,
+        "y": 285,
+        "wires": [
+            [
+                "8aeb92c0.198be"
+            ]
+        ]
+    },
+    {
+        "id": "8aeb92c0.198be",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "property": "status.text",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "connected",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 215,
+        "y": 285,
+        "wires": [
+            [
+                "851123a.3c8afe"
+            ]
+        ]
+    },
+    {
+        "id": "851123a.3c8afe",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 360,
+        "y": 285,
+        "wires": [
+            [
+                "f1f34771.be4838"
+            ]
+        ]
+    },
+    {
+        "id": "da6de34e.34e6e",
+        "type": "comment",
+        "z": "8992a0be.571c3",
+        "name": "Downstairs Furnace",
+        "info": "",
+        "x": 105,
+        "y": 525,
+        "wires": []
+    },
+    {
+        "id": "29d05d18.05d3a2",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Off",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_select.thermostat_upstairs",
+        "debugenabled": false,
+        "constraints": [
+            {
+                "id": "o3re3hu1igr",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "current_state",
+                "propertyValue": "new_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "Off"
+            },
+            {
+                "id": "29m7nyzl98b",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "previous_state",
+                "propertyValue": "old_state.state",
+                "comparatorType": "is_not",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "Off"
+            }
+        ],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 65,
+        "y": 900,
+        "wires": [
+            [
+                "352a3be0.9da8c4",
+                "2e65fa66.10bfb6"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "352a3be0.9da8c4",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Up Air Off",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_off",
+        "data": "{\"entity_id\":\"switch.upstairs_air_call\"}",
+        "render_data": false,
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 240,
+        "y": 915,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2e65fa66.10bfb6",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Up Furnace Off",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_off",
+        "data": "{\"entity_id\":\"switch.upstairs_furnace_call\"}",
+        "render_data": false,
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 260,
+        "y": 945,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c9778da4.a70bd",
+        "type": "comment",
+        "z": "8992a0be.571c3",
+        "name": "Mode Change - Turn Off Units",
+        "info": "",
+        "x": 135,
+        "y": 855,
+        "wires": []
+    },
+    {
+        "id": "f5fd7825.e8fb38",
+        "type": "comment",
+        "z": "8992a0be.571c3",
+        "name": "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Upstairs Thermostat - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ",
+        "info": "",
+        "x": 535,
+        "y": 810,
+        "wires": []
+    },
+    {
+        "id": "80080779.85d0f8",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Air",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_select.thermostat_upstairs",
+        "debugenabled": false,
+        "constraints": [
+            {
+                "id": "jslckm0wtmn",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "current_state",
+                "propertyValue": "new_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "Air"
+            },
+            {
+                "id": "5kh1d5l5gg3",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "previous_state",
+                "propertyValue": "old_state.state",
+                "comparatorType": "is_not",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "Air"
+            }
+        ],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 65,
+        "y": 930,
+        "wires": [
+            [
+                "352a3be0.9da8c4",
+                "2e65fa66.10bfb6"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "61937429.6acfdc",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Heat",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_select.thermostat_upstairs",
+        "debugenabled": false,
+        "constraints": [
+            {
+                "id": "9gi8y9o1wdn",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "current_state",
+                "propertyValue": "new_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "Heat"
+            },
+            {
+                "id": "9x7k3r9mvof",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "previous_state",
+                "propertyValue": "old_state.state",
+                "comparatorType": "is_not",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "Heat"
+            }
+        ],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 65,
+        "y": 960,
+        "wires": [
+            [
+                "352a3be0.9da8c4",
+                "2e65fa66.10bfb6"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "5ab5c092.17234",
+        "type": "inject",
+        "z": "8992a0be.571c3",
+        "name": "Deploy",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "x": 75,
+        "y": 1125,
+        "wires": [
+            [
+                "6a544e87.95431"
+            ]
+        ]
+    },
+    {
+        "id": "6a544e87.95431",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Thermostat Mode",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "input_select.thermostat_upstairs",
+        "state_type": "str",
+        "outputs": 1,
+        "x": 330,
+        "y": 1170,
+        "wires": [
+            [
+                "c7fce7ee.72e638"
+            ]
+        ]
+    },
+    {
+        "id": "c7fce7ee.72e638",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "Air?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Air",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "Air",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 500,
+        "y": 1170,
+        "wires": [
+            [
+                "1e49f9ad.806e56",
+                "2eb0eefd.225f02"
+            ],
+            [
+                "78d00423.315fac"
+            ]
+        ]
+    },
+    {
+        "id": "acd83a03.34b2d8",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Mode Change",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_select.thermostat_upstairs",
+        "entityidfiltertype": "exact",
+        "debugenabled": false,
+        "constraints": [],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 95,
+        "y": 1170,
+        "wires": [
+            [
+                "6a544e87.95431"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "5cc88e70.7c03e",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Temp Change",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_number.targettemp_upstairs",
+        "entityidfiltertype": "exact",
+        "debugenabled": false,
+        "constraints": [],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 95,
+        "y": 1215,
+        "wires": [
+            [
+                "6a544e87.95431"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "b882a291.6c5b2",
+        "type": "comment",
+        "z": "8992a0be.571c3",
+        "name": "Upstairs Air Conditioner",
+        "info": "",
+        "x": 115,
+        "y": 1035,
+        "wires": []
+    },
+    {
+        "id": "655dbf02.ca662",
+        "type": "status",
+        "z": "8992a0be.571c3",
+        "name": "HA Restart",
+        "scope": null,
+        "x": 75,
+        "y": 1080,
+        "wires": [
+            [
+                "a9fdd2e8.9b454"
+            ]
+        ]
+    },
+    {
+        "id": "a9fdd2e8.9b454",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "property": "status.text",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "connected",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 215,
+        "y": 1080,
+        "wires": [
+            [
+                "151595b4.5626aa"
+            ]
+        ]
+    },
+    {
+        "id": "151595b4.5626aa",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 360,
+        "y": 1080,
+        "wires": [
+            [
+                "6a544e87.95431"
+            ]
+        ]
+    },
+    {
+        "id": "1e49f9ad.806e56",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Up Temp",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "sensor.average_upstairs_temp",
+        "state_type": "str",
+        "outputs": 1,
+        "x": 675,
+        "y": 1125,
+        "wires": [
+            [
+                "d2e336f.0ec7fc8"
+            ]
+        ]
+    },
+    {
+        "id": "2eb0eefd.225f02",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Up Target",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "input_number.targettemp_upstairs",
+        "outputs": 1,
+        "x": 675,
+        "y": 1170,
+        "wires": [
+            [
+                "8eec4dc5.88db"
+            ]
+        ]
+    },
+    {
+        "id": "58a840d1.49f7a",
+        "type": "join",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1010,
+        "y": 1125,
+        "wires": [
+            [
+                "34cfd886.79cb88"
+            ]
+        ]
+    },
+    {
+        "id": "34cfd886.79cb88",
+        "type": "function",
+        "z": "8992a0be.571c3",
+        "name": "Air",
+        "func": "if (msg.payload.up_temp - msg.payload.target_temp >= 0.5)\n{\n    msg.payload = \"air\";\n}\nelse if (msg.payload.up_temp - msg.payload.target_temp <= 0.0)\n{\n    msg.payload = \"off\";\n}\nelse\n{\n    msg.payload = \"timer\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1130,
+        "y": 1125,
+        "wires": [
+            [
+                "638df3c1.3c0b1c"
+            ]
+        ]
+    },
+    {
+        "id": "8eec4dc5.88db",
+        "type": "change",
+        "z": "8992a0be.571c3",
+        "name": "target_temp",
+        "rules": [
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "input_number.targettemp_upstairs",
+                "fromt": "str",
+                "to": "target_temp",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 850,
+        "y": 1170,
+        "wires": [
+            [
+                "58a840d1.49f7a"
+            ]
+        ]
+    },
+    {
+        "id": "d2e336f.0ec7fc8",
+        "type": "change",
+        "z": "8992a0be.571c3",
+        "name": "up_temp",
+        "rules": [
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "sensor.average_upstairs_temp",
+                "fromt": "str",
+                "to": "up_temp",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 840,
+        "y": 1125,
+        "wires": [
+            [
+                "58a840d1.49f7a"
+            ]
+        ]
+    },
+    {
+        "id": "638df3c1.3c0b1c",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "air",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "timer",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 1415,
+        "y": 1125,
+        "wires": [
+            [
+                "2b28e22e.18568e",
+                "333ff9ee.ab9766"
+            ],
+            [
+                "cc940e5f.57aaa",
+                "102e80e8.72c3cf"
+            ],
+            [
+                "743e90d2.f7ecb"
+            ]
+        ]
+    },
+    {
+        "id": "2b28e22e.18568e",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Up Air Off",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_off",
+        "data": "{ \"entity_id\": \"switch.upstairs_air_call\" }",
+        "mergecontext": "",
+        "x": 1665,
+        "y": 1080,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cc940e5f.57aaa",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Up Air On",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_on",
+        "data": "{ \"entity_id\": \"switch.upstairs_air_call\" }",
+        "mergecontext": "",
+        "x": 1665,
+        "y": 1125,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "78d00423.315fac",
+        "type": "change",
+        "z": "8992a0be.571c3",
+        "name": "stop",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "stop",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 1215,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a6de4374.9540f",
+        "type": "inject",
+        "z": "8992a0be.571c3",
+        "name": "Deploy",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "2",
+        "x": 75,
+        "y": 1410,
+        "wires": [
+            [
+                "dd0896bf.2c30f8"
+            ]
+        ]
+    },
+    {
+        "id": "dd0896bf.2c30f8",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Thermostat Mode",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "input_select.thermostat_upstairs",
+        "state_type": "str",
+        "outputs": 1,
+        "x": 330,
+        "y": 1455,
+        "wires": [
+            [
+                "eaf22b52.113c28"
+            ]
+        ]
+    },
+    {
+        "id": "5287ec53.4f8094",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Mode Change",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_select.thermostat_upstairs",
+        "entityidfiltertype": "exact",
+        "debugenabled": false,
+        "constraints": [],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 95,
+        "y": 1455,
+        "wires": [
+            [
+                "dd0896bf.2c30f8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "40e4d79f.96f068",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Temp Change",
+        "server": "53328d1c.e233e4",
+        "entityid": "input_number.targettemp_upstairs",
+        "entityidfiltertype": "exact",
+        "debugenabled": false,
+        "constraints": [],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "x": 95,
+        "y": 1500,
+        "wires": [
+            [
+                "dd0896bf.2c30f8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "d5263d8e.b4f88",
+        "type": "comment",
+        "z": "8992a0be.571c3",
+        "name": "Upstairs Furnace",
+        "info": "",
+        "x": 95,
+        "y": 1320,
+        "wires": []
+    },
+    {
+        "id": "4602f3a8.3aa3cc",
+        "type": "status",
+        "z": "8992a0be.571c3",
+        "name": "HA Restart",
+        "scope": null,
+        "x": 75,
+        "y": 1365,
+        "wires": [
+            [
+                "254fef6d.b1819"
+            ]
+        ]
+    },
+    {
+        "id": "254fef6d.b1819",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "property": "status.text",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "connected",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 215,
+        "y": 1365,
+        "wires": [
+            [
+                "6743f208.b67adc"
+            ]
+        ]
+    },
+    {
+        "id": "6743f208.b67adc",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 360,
+        "y": 1365,
+        "wires": [
+            [
+                "dd0896bf.2c30f8"
+            ]
+        ]
+    },
+    {
+        "id": "eaf22b52.113c28",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "Heat?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Heat",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "Heat",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 500,
+        "y": 1455,
+        "wires": [
+            [
+                "95b4b8cd.641238",
+                "fa6c380b.4dd818"
+            ],
+            [
+                "57ad2818.f71698"
+            ]
+        ]
+    },
+    {
+        "id": "95b4b8cd.641238",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Up Temp",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "sensor.average_upstairs_temp",
+        "state_type": "str",
+        "outputs": 1,
+        "x": 675,
+        "y": 1410,
+        "wires": [
+            [
+                "f923bd4e.922e2"
+            ]
+        ]
+    },
+    {
+        "id": "fa6c380b.4dd818",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Up Target",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "input_number.targettemp_upstairs",
+        "outputs": 1,
+        "x": 675,
+        "y": 1455,
+        "wires": [
+            [
+                "a2a9d948.7159a8"
+            ]
+        ]
+    },
+    {
+        "id": "fccfe3ef.3eaa9",
+        "type": "join",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1010,
+        "y": 1410,
+        "wires": [
+            [
+                "f6df1afc.061e78"
+            ]
+        ]
+    },
+    {
+        "id": "a2a9d948.7159a8",
+        "type": "change",
+        "z": "8992a0be.571c3",
+        "name": "target_temp",
+        "rules": [
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "input_number.targettemp_upstairs",
+                "fromt": "str",
+                "to": "target_temp",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 850,
+        "y": 1455,
+        "wires": [
+            [
+                "fccfe3ef.3eaa9"
+            ]
+        ]
+    },
+    {
+        "id": "f923bd4e.922e2",
+        "type": "change",
+        "z": "8992a0be.571c3",
+        "name": "up_temp",
+        "rules": [
+            {
+                "t": "change",
+                "p": "topic",
+                "pt": "msg",
+                "from": "sensor.average_upstairs_temp",
+                "fromt": "str",
+                "to": "up_temp",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 840,
+        "y": 1410,
+        "wires": [
+            [
+                "fccfe3ef.3eaa9"
+            ]
+        ]
+    },
+    {
+        "id": "57ad2818.f71698",
+        "type": "change",
+        "z": "8992a0be.571c3",
+        "name": "stop",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "stop",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 1500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f6df1afc.061e78",
+        "type": "function",
+        "z": "8992a0be.571c3",
+        "name": "Heat",
+        "func": "if (msg.payload.target_temp - msg.payload.up_temp >= 0.5)\n{\n    msg.payload = \"heat\";\n}\nelse if (msg.payload.target_temp - msg.payload.up_temp <= 0.0)\n{\n    msg.payload = \"off\";\n}\nelse\n{\n    msg.payload = \"timer\";\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1130,
+        "y": 1410,
+        "wires": [
+            [
+                "23ca7270.aaed3e"
+            ]
+        ]
+    },
+    {
+        "id": "23ca7270.aaed3e",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "heat",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "timer",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 1415,
+        "y": 1410,
+        "wires": [
+            [
+                "f1e1f456.1303b8",
+                "2b2c18b.1b7dae8"
+            ],
+            [
+                "94b98fec.0480b",
+                "2beef0f7.f43af"
+            ],
+            [
+                "1d974e14.b75352"
+            ]
+        ]
+    },
+    {
+        "id": "f1e1f456.1303b8",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Up Heat Off",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_off",
+        "data": "{ \"entity_id\": \"switch.upstairs_furnace_call\" }",
+        "mergecontext": "",
+        "x": 1675,
+        "y": 1365,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "94b98fec.0480b",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Up Heat On",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_on",
+        "data": "{ \"entity_id\": \"switch.upstairs_furnace_call\" }",
+        "mergecontext": "",
+        "x": 1675,
+        "y": 1410,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2db368af.b62d48",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "heat?",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "switch.downstairs_furnace_call",
+        "state_type": "str",
+        "outputs": 1,
+        "x": 1655,
+        "y": 675,
+        "wires": [
+            [
+                "b496b08.e3e235"
+            ]
+        ]
+    },
+    {
+        "id": "b496b08.e3e235",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1835,
+        "y": 630,
+        "wires": [
+            [
+                "2995d5bd.28e6da"
+            ],
+            [
+                "befaf675.b0ac78"
+            ]
+        ]
+    },
+    {
+        "id": "1d974e14.b75352",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "heat?",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "switch.upstairs_furnace_call",
+        "state_type": "str",
+        "outputs": 1,
+        "x": 1655,
+        "y": 1455,
+        "wires": [
+            [
+                "b19ab360.e4fc6"
+            ]
+        ]
+    },
+    {
+        "id": "b19ab360.e4fc6",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1820,
+        "y": 1410,
+        "wires": [
+            [
+                "2b2c18b.1b7dae8"
+            ],
+            [
+                "2beef0f7.f43af"
+            ]
+        ]
+    },
+    {
+        "id": "743e90d2.f7ecb",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Air?",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "switch.upstairs_air_call",
+        "state_type": "str",
+        "outputs": 1,
+        "x": 1655,
+        "y": 1170,
+        "wires": [
+            [
+                "3ba532b1.c9575e"
+            ]
+        ]
+    },
+    {
+        "id": "3ba532b1.c9575e",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1805,
+        "y": 1125,
+        "wires": [
+            [
+                "333ff9ee.ab9766"
+            ],
+            [
+                "102e80e8.72c3cf"
+            ]
+        ]
+    },
+    {
+        "id": "c343b3bc.17299",
+        "type": "api-current-state",
+        "z": "8992a0be.571c3",
+        "name": "Air?",
+        "server": "53328d1c.e233e4",
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": true,
+        "override_payload": true,
+        "override_data": true,
+        "entity_id": "switch.downstairs_air_call",
+        "state_type": "str",
+        "outputs": 1,
+        "x": 1640,
+        "y": 390,
+        "wires": [
+            [
+                "8e8fdbad.435528"
+            ]
+        ]
+    },
+    {
+        "id": "8e8fdbad.435528",
+        "type": "switch",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1790,
+        "y": 345,
+        "wires": [
+            [
+                "1b5054a6.33073b"
+            ],
+            [
+                "84859bd2.f5eb58"
+            ]
+        ]
+    },
+    {
+        "id": "b049ba5e.d1d938",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Turn On",
+        "server": "53328d1c.e233e4",
+        "entityid": "switch.downstairs_furnace_call",
+        "entityidfiltertype": "exact",
+        "debugenabled": false,
+        "constraints": [
+            {
+                "id": "7z7d03vello",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "current_state",
+                "propertyValue": "new_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "on"
+            },
+            {
+                "id": "5ljbag27bmu",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "previous_state",
+                "propertyValue": "old_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "off"
+            }
+        ],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "state_type": "str",
+        "x": 75,
+        "y": 750,
+        "wires": [
+            [
+                "cd13920f.aabfb"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "6845dd1.d3ef724",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Turn On",
+        "server": "53328d1c.e233e4",
+        "entityid": "switch.downstairs_air_call",
+        "entityidfiltertype": "exact",
+        "debugenabled": false,
+        "constraints": [
+            {
+                "id": "7z7d03vello",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "current_state",
+                "propertyValue": "new_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "on"
+            },
+            {
+                "id": "5ljbag27bmu",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "previous_state",
+                "propertyValue": "old_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "off"
+            }
+        ],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "state_type": "str",
+        "x": 75,
+        "y": 465,
+        "wires": [
+            [
+                "be1fd1c2.48499"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "ccb89845.916e18",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Turn On",
+        "server": "53328d1c.e233e4",
+        "entityid": "switch.upstairs_air_call",
+        "entityidfiltertype": "exact",
+        "debugenabled": false,
+        "constraints": [
+            {
+                "id": "7z7d03vello",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "current_state",
+                "propertyValue": "new_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "on"
+            },
+            {
+                "id": "5ljbag27bmu",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "previous_state",
+                "propertyValue": "old_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "off"
+            }
+        ],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "state_type": "str",
+        "x": 75,
+        "y": 1260,
+        "wires": [
+            [
+                "de861b6b.4b5298"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "91756b83.144e98",
+        "type": "trigger-state",
+        "z": "8992a0be.571c3",
+        "name": "Turn On",
+        "server": "53328d1c.e233e4",
+        "entityid": "switch.upstairs_furnace_call",
+        "entityidfiltertype": "exact",
+        "debugenabled": false,
+        "constraints": [
+            {
+                "id": "7z7d03vello",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "current_state",
+                "propertyValue": "new_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "on"
+            },
+            {
+                "id": "5ljbag27bmu",
+                "targetType": "this_entity",
+                "targetValue": "",
+                "propertyType": "previous_state",
+                "propertyValue": "old_state.state",
+                "comparatorType": "is",
+                "comparatorValueDatatype": "str",
+                "comparatorValue": "off"
+            }
+        ],
+        "constraintsmustmatch": "all",
+        "outputs": 2,
+        "customoutputs": [],
+        "outputinitially": false,
+        "state_type": "str",
+        "x": 75,
+        "y": 1545,
+        "wires": [
+            [
+                "e8af289a.eeaed8"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "2995d5bd.28e6da",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "6",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1260,
+        "y": 570,
+        "wires": [
+            [
+                "998f02d1.e4ad4"
+            ]
+        ]
+    },
+    {
+        "id": "befaf675.b0ac78",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1260,
+        "y": 690,
+        "wires": [
+            [
+                "998f02d1.e4ad4"
+            ]
+        ]
+    },
+    {
+        "id": "1b5054a6.33073b",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "12",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1270,
+        "y": 285,
+        "wires": [
+            [
+                "f1f34771.be4838"
+            ]
+        ]
+    },
+    {
+        "id": "84859bd2.f5eb58",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1260,
+        "y": 405,
+        "wires": [
+            [
+                "f1f34771.be4838"
+            ]
+        ]
+    },
+    {
+        "id": "2b2c18b.1b7dae8",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "6",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1260,
+        "y": 1350,
+        "wires": [
+            [
+                "dd0896bf.2c30f8"
+            ]
+        ]
+    },
+    {
+        "id": "2beef0f7.f43af",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1260,
+        "y": 1470,
+        "wires": [
+            [
+                "dd0896bf.2c30f8"
+            ]
+        ]
+    },
+    {
+        "id": "333ff9ee.ab9766",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "12",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1270,
+        "y": 1065,
+        "wires": [
+            [
+                "6a544e87.95431"
+            ]
+        ]
+    },
+    {
+        "id": "102e80e8.72c3cf",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "3",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1260,
+        "y": 1185,
+        "wires": [
+            [
+                "6a544e87.95431"
+            ]
+        ]
+    },
+    {
+        "id": "e8af289a.eeaed8",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "24",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 250,
+        "y": 1545,
+        "wires": [
+            [
+                "dd0896bf.2c30f8"
+            ]
+        ]
+    },
+    {
+        "id": "de861b6b.4b5298",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "24",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 250,
+        "y": 1260,
+        "wires": [
+            [
+                "6a544e87.95431"
+            ]
+        ]
+    },
+    {
+        "id": "cd13920f.aabfb",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "24",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 250,
+        "y": 750,
+        "wires": [
+            [
+                "998f02d1.e4ad4"
+            ]
+        ]
+    },
+    {
+        "id": "be1fd1c2.48499",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "24",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 250,
+        "y": 465,
+        "wires": [
+            [
+                "f1f34771.be4838"
+            ]
+        ]
+    },
+    {
+        "id": "53328d1c.e233e4",
+        "type": "server",
+        "z": "",
+        "name": "Home Assistant",
+        "legacy": true,
+        "hassio": true,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open"
+    }
+]
