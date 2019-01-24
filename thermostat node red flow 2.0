@@ -78,9 +78,7 @@
                 "5ae94ddd.7b7084",
                 "39d23a39.0bb9f6"
             ],
-            [
-                "45a4958f.cfe8cc"
-            ]
+            []
         ]
     },
     {
@@ -434,7 +432,8 @@
         "wires": [
             [
                 "d1d5cedb.20642",
-                "1b5054a6.33073b"
+                "1b5054a6.33073b",
+                "651749f8.ebf7e8"
             ],
             [
                 "a74f72ef.0dcc8",
@@ -497,31 +496,6 @@
             [
                 "f1f34771.be4838"
             ],
-            []
-        ]
-    },
-    {
-        "id": "45a4958f.cfe8cc",
-        "type": "change",
-        "z": "8992a0be.571c3",
-        "name": "stop",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "stop",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 785,
-        "y": 435,
-        "wires": [
             []
         ]
     },
@@ -725,7 +699,8 @@
         "wires": [
             [
                 "29f36a57.48f6e6",
-                "2995d5bd.28e6da"
+                "2995d5bd.28e6da",
+                "2bb6d59a.cb1b7a"
             ],
             [
                 "ca5134e7.ebbb98",
@@ -1155,7 +1130,7 @@
         "name": "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Upstairs Thermostat - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ",
         "info": "",
         "x": 535,
-        "y": 810,
+        "y": 825,
         "wires": []
     },
     {
@@ -1318,9 +1293,7 @@
                 "1e49f9ad.806e56",
                 "2eb0eefd.225f02"
             ],
-            [
-                "78d00423.315fac"
-            ]
+            []
         ]
     },
     {
@@ -1618,7 +1591,8 @@
         "wires": [
             [
                 "2b28e22e.18568e",
-                "333ff9ee.ab9766"
+                "333ff9ee.ab9766",
+                "30611dac.f94da2"
             ],
             [
                 "cc940e5f.57aaa",
@@ -1657,31 +1631,6 @@
         "mergecontext": "",
         "x": 1665,
         "y": 1125,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "78d00423.315fac",
-        "type": "change",
-        "z": "8992a0be.571c3",
-        "name": "stop",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "stop",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 770,
-        "y": 1215,
         "wires": [
             []
         ]
@@ -1876,9 +1825,7 @@
                 "95b4b8cd.641238",
                 "fa6c380b.4dd818"
             ],
-            [
-                "57ad2818.f71698"
-            ]
+            []
         ]
     },
     {
@@ -2011,31 +1958,6 @@
         ]
     },
     {
-        "id": "57ad2818.f71698",
-        "type": "change",
-        "z": "8992a0be.571c3",
-        "name": "stop",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "stop",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 770,
-        "y": 1500,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "f6df1afc.061e78",
         "type": "function",
         "z": "8992a0be.571c3",
@@ -2083,7 +2005,8 @@
         "wires": [
             [
                 "f1e1f456.1303b8",
-                "2b2c18b.1b7dae8"
+                "2b2c18b.1b7dae8",
+                "e6b174ef.2942b8"
             ],
             [
                 "94b98fec.0480b",
@@ -2390,7 +2313,8 @@
         "y": 750,
         "wires": [
             [
-                "cd13920f.aabfb"
+                "cd13920f.aabfb",
+                "7882098a.0ca868"
             ],
             []
         ]
@@ -2435,7 +2359,8 @@
         "y": 465,
         "wires": [
             [
-                "be1fd1c2.48499"
+                "be1fd1c2.48499",
+                "5793149d.250b5c"
             ],
             []
         ]
@@ -2480,7 +2405,8 @@
         "y": 1260,
         "wires": [
             [
-                "de861b6b.4b5298"
+                "de861b6b.4b5298",
+                "a5135478.accf28"
             ],
             []
         ]
@@ -2525,7 +2451,8 @@
         "y": 1545,
         "wires": [
             [
-                "e8af289a.eeaed8"
+                "e8af289a.eeaed8",
+                "33ce7beb.803634"
             ],
             []
         ]
@@ -2559,7 +2486,7 @@
         "z": "8992a0be.571c3",
         "name": "",
         "pauseType": "delay",
-        "timeout": "3",
+        "timeout": "1",
         "timeoutUnits": "minutes",
         "rate": "1",
         "nbRateUnits": "1",
@@ -2651,7 +2578,7 @@
         "z": "8992a0be.571c3",
         "name": "",
         "pauseType": "delay",
-        "timeout": "3",
+        "timeout": "1",
         "timeoutUnits": "minutes",
         "rate": "1",
         "nbRateUnits": "1",
@@ -2720,7 +2647,7 @@
         "z": "8992a0be.571c3",
         "name": "",
         "pauseType": "delay",
-        "timeout": "24",
+        "timeout": "12",
         "timeoutUnits": "minutes",
         "rate": "1",
         "nbRateUnits": "1",
@@ -2743,7 +2670,7 @@
         "z": "8992a0be.571c3",
         "name": "",
         "pauseType": "delay",
-        "timeout": "24",
+        "timeout": "12",
         "timeoutUnits": "minutes",
         "rate": "1",
         "nbRateUnits": "1",
@@ -2766,7 +2693,7 @@
         "z": "8992a0be.571c3",
         "name": "",
         "pauseType": "delay",
-        "timeout": "24",
+        "timeout": "12",
         "timeoutUnits": "minutes",
         "rate": "1",
         "nbRateUnits": "1",
@@ -2789,7 +2716,7 @@
         "z": "8992a0be.571c3",
         "name": "",
         "pauseType": "delay",
-        "timeout": "24",
+        "timeout": "12",
         "timeoutUnits": "minutes",
         "rate": "1",
         "nbRateUnits": "1",
@@ -2800,6 +2727,257 @@
         "drop": false,
         "x": 250,
         "y": 465,
+        "wires": [
+            [
+                "f1f34771.be4838"
+            ]
+        ]
+    },
+    {
+        "id": "5de11be7.7ec0c4",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Up Heat Off",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_off",
+        "data": "{ \"entity_id\": \"switch.upstairs_furnace_call\" }",
+        "mergecontext": "",
+        "x": 1825,
+        "y": 1320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e6b174ef.2942b8",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1665,
+        "y": 1320,
+        "wires": [
+            [
+                "5de11be7.7ec0c4"
+            ]
+        ]
+    },
+    {
+        "id": "7da06ec3.3b2af",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Up Air Off",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_off",
+        "data": "{ \"entity_id\": \"switch.upstairs_air_call\" }",
+        "mergecontext": "",
+        "x": 1815,
+        "y": 1035,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "30611dac.f94da2",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1665,
+        "y": 1035,
+        "wires": [
+            [
+                "7da06ec3.3b2af"
+            ]
+        ]
+    },
+    {
+        "id": "f766cab9.ad44d8",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Dn Heat Off",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_off",
+        "data": "{\"entity_id\":\"switch.downstairs_furnace_call\"}",
+        "render_data": false,
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 1825,
+        "y": 540,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2bb6d59a.cb1b7a",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1665,
+        "y": 540,
+        "wires": [
+            [
+                "f766cab9.ad44d8"
+            ]
+        ]
+    },
+    {
+        "id": "fbcb7380.b1b17",
+        "type": "api-call-service",
+        "z": "8992a0be.571c3",
+        "name": "Dn Air Off",
+        "server": "53328d1c.e233e4",
+        "service_domain": "switch",
+        "service": "turn_off",
+        "data": "{ \"entity_id\": \"switch.downstairs_air_call\" }",
+        "mergecontext": "",
+        "x": 1800,
+        "y": 255,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "651749f8.ebf7e8",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1650,
+        "y": 255,
+        "wires": [
+            [
+                "fbcb7380.b1b17"
+            ]
+        ]
+    },
+    {
+        "id": "33ce7beb.803634",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "24",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 250,
+        "y": 1575,
+        "wires": [
+            [
+                "dd0896bf.2c30f8"
+            ]
+        ]
+    },
+    {
+        "id": "a5135478.accf28",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "24",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 250,
+        "y": 1290,
+        "wires": [
+            [
+                "6a544e87.95431"
+            ]
+        ]
+    },
+    {
+        "id": "7882098a.0ca868",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "24",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 250,
+        "y": 780,
+        "wires": [
+            [
+                "998f02d1.e4ad4"
+            ]
+        ]
+    },
+    {
+        "id": "5793149d.250b5c",
+        "type": "delay",
+        "z": "8992a0be.571c3",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "24",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 250,
+        "y": 495,
         "wires": [
             [
                 "f1f34771.be4838"
