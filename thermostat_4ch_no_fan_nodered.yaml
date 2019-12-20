@@ -1,0 +1,183 @@
+## This Variation is Solely For using a Sonoff 4ch/Pro to Control 2 Units with No Manual Fan
+
+## 4Ch Sonoff Wiring
+## 1 - (N.C. - empty) (COM - 24v Red Wire from Downstairs Unit) (N.O. - AC/Fan Call yellow & green wires together)
+## 2 - (N.C. - empty) (COM - 24v Red Wire from Downstairs Unit) (N.O. - Furance Call white wire)
+## 3 - (N.C. - empty) (COM - 24v Red Wire from Upstairs Unit) (N.O. - AC/Fan Call yellow & green wires together)
+## 4 - (N.C. - empty) (COM - 24v Red Wire from Upstairs Unit) (N.O. - Furnace Call white wire)
+
+homeassistant:
+  customize: 
+    sensor.downstairs_hvac:
+      friendly_name: Downstairs Unit Is
+      templates:
+        hs_color: >
+          if (state === 'Heating') return [0,100,100];
+          if (state === 'Cooling') return [245,100,50];
+          return 'rgb(160, 160, 160)';
+    sensor.upstairs_hvac:
+      friendly_name: Upstairs Unit Is
+      templates:
+        hs_color: >
+          if (state === 'Heating') return [0,100,100];
+          if (state === 'Cooling') return [245,100,50];
+          return 'rgb(160, 160, 160)';
+
+group:
+  thermostat_downstairs:
+    name: Downstairs Thermostat
+    view: no
+    entities:
+     - sensor.average_downstairs_temp
+     - sensor.average_downstairs_humidity
+     - sensor.downstairs_hvac
+     - input_select.thermostat_downstairs
+     - input_number.targettemp_downstairs
+  thermostat_upstairs:
+    name: Upstairs Thermostat
+    view: no
+    entities:
+     - sensor.average_upstairs_temp
+     - sensor.average_upstairs_humidity
+     - sensor.upstairs_hvac
+     - input_select.thermostat_upstairs
+     - input_number.targettemp_upstairs
+
+## Available Modes For Units
+input_select:
+  thermostat_downstairs:
+    name: Downstairs Mode
+    icon: mdi:thermostat-box
+    options:
+     - 'Off'
+     - Air
+     - Heat
+  thermostat_upstairs:
+    name: Upstairs Mode
+    icon: mdi:thermostat-box
+    options:
+      - 'Off'
+      - Air
+      - Heat
+
+## Target Temp Sliders
+input_number:
+  targettemp_downstairs:
+    name: Temp
+    icon: mdi:thermometer
+    min: 67
+    max: 74
+    step: 0.5
+    mode: slider
+    unit_of_measurement: '°F'
+  targettemp_upstairs:
+    name: Temp
+    icon: mdi:thermometer
+    min: 67
+    max: 74
+    step: 0.5
+    mode: slider
+    unit_of_measurement: '°F'
+
+## Template Sensors For Custom Unit Status
+sensor:
+  - platform: template
+    sensors:
+      downstairs_hvac:
+        value_template: >-
+          {% if is_state("switch.downstairs_air_call", "on" ) %}
+            Cooling
+          {% elif is_state("switch.downstairs_furnace_call", "on" ) %}
+            Heating
+          {% else %}
+            Idle
+          {% endif %}
+        icon_template: >-
+         {% if is_state("switch.downstairs_air_call", "on" ) %}
+            mdi:air-conditioner
+          {% elif is_state("switch.downstairs_furnace_call", "on" ) %}
+            mdi:radiator
+          {% else %}
+            mdi:update
+          {% endif %}
+      upstairs_hvac:
+        value_template: >-
+          {% if is_state("switch.upstairs_air_call", "on" ) %}
+            Cooling
+          {% elif is_state("switch.upstairs_furnace_call", "on" ) %}
+            Heating
+          {% else %}
+            Idle
+          {% endif %}
+        icon_template: >-
+         {% if is_state("switch.upstairs_air_call", "on" ) %}
+            mdi:air-conditioner
+          {% elif is_state("switch.upstairs_furnace_call", "on" ) %}
+            mdi:radiator
+          {% else %}
+            mdi:update
+          {% endif %}
+
+      downstairs_hvac_button_animation:
+        value_template: >-
+         {% if is_state("switch.downstairs_air_call", "on" ) %}
+            air
+          {% elif is_state("switch.downstairs_furnace_call", "on" ) %}
+            heat
+          {% else %}
+          {% endif %}
+      upstairs_hvac_button_animation:
+        value_template: >-
+         {% if is_state("switch.upstairs_air_call", "on" ) %}
+            air
+          {% elif is_state("switch.upstairs_furnace_call", "on" ) %}
+            heat
+          {% else %}
+          {% endif %}
+
+## Thermostat Switches For Climate Control
+switch:
+  - platform: mqtt
+    name: "Downstairs Air Call"
+    command_topic: "cmnd/thermostat/POWER1"
+    state_topic: "stat/thermostat/POWER1"
+    availability_topic: "tele/thermostat/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  - platform: mqtt
+    name: "Downstairs Furnace Call"
+    command_topic: "cmnd/thermostat/POWER2"
+    state_topic: "stat/thermostat/POWER2"
+    availability_topic: "tele/thermostat/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  - platform: mqtt
+    name: "Upstairs Air Call"
+    command_topic: "cmnd/thermostat/POWER3"
+    state_topic: "stat/thermostat/POWER3"
+    availability_topic: "tele/thermostat/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false
+  - platform: mqtt
+    name: "Upstairs Furnace Call"
+    command_topic: "cmnd/thermostat/POWER4"
+    state_topic: "stat/thermostat/POWER4"
+    availability_topic: "tele/thermostat/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: false

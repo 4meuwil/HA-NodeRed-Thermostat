@@ -1,0 +1,330 @@
+homeassistant:
+  customize:
+    sensor.garage_climate_oneline:
+      icon: mdi:thermometer
+    sensor.sensor1_oneline:
+      icon: mdi:thermometer
+    sensor.sensor2_oneline:
+      icon: mdi:thermometer
+    sensor.sensor3_oneline:
+      icon: mdi:thermometer
+    sensor.sensor4_oneline:
+      icon: mdi:thermometer
+    sensor.sensor5_oneline:
+      icon: mdi:thermometer
+    sensor.sensor6_oneline:
+      icon: mdi:thermometer
+    sensor.average_downstairs_temp:
+      icon: mdi:thermometer
+    sensor.average_upstairs_temp:
+      icon: mdi:thermometer
+    sensor.average_downstairs_humidity:
+      icon: mdi:water-percent
+    sensor.average_upstairs_humidity:
+      icon: mdi:water-percent
+    sensor.temperature_office:
+      friendly_name: Office Temp
+      icon: mdi:thermometer
+    sensor.temperature_kitchen:
+      friendly_name: Kitchen Temp
+      icon: mdi:thermometer
+    sensor.temperature_master:
+      friendly_name: Master Temp
+      icon: mdi:thermometer
+    sensor.temperature_abby:
+      friendly_name: Abby Temp
+      icon: mdi:thermometer
+    sensor.temperature_deuce:
+      friendly_name: Deuce Temp
+      icon: mdi:thermometer
+    sensor.temperature_ben:
+      friendly_name: Ben Temp
+      icon: mdi:thermometer
+
+    sensor.humidity_office:
+      friendly_name: Office Humidity
+      icon: mdi:water-percent
+    sensor.humidity_kitchen:
+      friendly_name: Kitchen Humidity
+      icon: mdi:water-percent
+    sensor.humidity_master:
+      friendly_name: Master Humidity
+      icon: mdi:water-percent
+    sensor.humidity_abby:
+      friendly_name: Abby Humidity
+      icon: mdi:water-percent
+    sensor.humidity_deuce:
+      friendly_name: Deuce Humidity
+      icon: mdi:water-percent
+    sensor.humidity_ben:
+      friendly_name: Ben Humidity
+      icon: mdi:water-percent
+
+## Hide Switches for Node Red Alexa Temperature Announcements
+    input_boolean.downstairs_temp:
+      hidden: true
+    input_boolean.downstairs_humidity:
+      hidden: true
+    input_boolean.garage_temp:
+      hidden: true
+    input_boolean.garage_humidity:
+      hidden: true
+    input_boolean.upstairs_temp:
+      hidden: true
+    input_boolean.upstairs_humidity:
+      hidden: true
+## Hide rounded temp/humidty sensors alexa uses for announcements
+    sensor.upstairs_temp_rounded:
+      hidden: true
+    sensor.upstairs_humidity_rounded:
+      hidden: true
+    sensor.downstairs_temp_rounded:
+      hidden: true
+    sensor.downstairs_humidity_rounded:
+      hidden: true
+    sensor.garage_temp_rounded:
+      hidden: true
+    sensor.garage_humidity_rounded:
+      hidden: true
+
+automation:
+
+- alias: Temp Sensors Update Overdue
+  initial_state: 'on'
+  trigger:
+    platform: state
+    entity_id: sensor.temp_updates_all
+    from: 'OK'
+    to: 'Problem'
+  action:
+    - service: notify.mobile_app_jakes_iphone
+      data:
+        message: "Temp Update Overdue!"
+
+## Switches for Node Red Alexa Temperature Announcements
+input_boolean:
+  downstairs_temp:
+    name: Downstairs Temperature
+    initial: off
+  downstairs_humidity:
+    name: Downstairs Humidity
+    initial: off
+  garage_temp:
+    name: Garage Temperature
+    initial: off
+  garage_humidity:
+    name: Garage Humidity
+    initial: off
+  upstairs_temp:
+    name: Upstairs Temperature
+    initial: off
+  upstairs_humidity:
+    name: Upstairs Humidity
+    initial: off
+  downstairs_hotter:
+    name: Downstairs Hotter
+    initial: off
+  downstairs_cooler:
+    name: Downstairs Cooler
+    initial: off
+  upstairs_hotter:
+    name: Upstairs Hotter
+    initial: off
+  upstairs_cooler:
+    name: Upstairs Cooler
+    initial: off
+
+sensor:
+
+## http://192.168.1.226
+## Garage Climate Sensors Minus 1 Degree Adjustment
+  - platform: mqtt
+    state_topic: 'tele/garage_light2/SENSOR'
+    name: 'Garage Temp' #AM2302
+    icon: mdi:thermometer
+    unit_of_measurement: '°F'
+    value_template: '{{ value_json.AM2301.Temperature | float - 1 }}'
+    expire_after: 300
+  - platform: mqtt
+    state_topic: 'tele/garage_light2/SENSOR'
+    name: 'Garage Humidity'
+    icon: mdi:water-percent
+    unit_of_measurement: '%'
+    value_template: '{{ value_json.AM2301.Humidity }}'
+    expire_after: 300
+
+## Climate Sensors Templated On One Line For Display Purposes
+  - platform: template
+    sensors:
+      climate_office:
+        friendly_name: "Office"
+        value_template: >
+          {{states.sensor.temperature_office.state}}° - {{states.sensor.humidity_office.state}}%
+      climate_kitchen:
+        friendly_name: "Kitchen"
+        value_template: >
+          {{states.sensor.temperature_kitchen.state}}° - {{states.sensor.humidity_kitchen.state}}%
+      climate_bedroom:
+        friendly_name: "Bedroom"
+        value_template: >
+          {{states.sensor.temperature_master.state}}° - {{states.sensor.humidity_master.state}}%
+      climate_abigail:
+        friendly_name: "Abigail"
+        value_template: >
+          {{states.sensor.temperature_abby.state}}° - {{states.sensor.humidity_abby.state}}%
+      climate_deuce:
+        friendly_name: "Deuce"
+        value_template: >
+          {{states.sensor.temperature_deuce.state}}° - {{states.sensor.humidity_deuce.state}}%
+      climate_benjamin:
+        friendly_name: "Benjamin"
+        value_template: >
+          {{states.sensor.temperature_ben.state}}° - {{states.sensor.humidity_ben.state}}%
+
+      climate_garage:
+        friendly_name: "Garage"
+        value_template: >
+          {{states.sensor.garage_temp.state}}° - {{states.sensor.garage_humidity.state}}%
+
+      temp_update_office:
+        entity_id: sensor.time
+        friendly_name: "Office Last Update"
+        value_template: >
+          {{ ((as_timestamp(now()) - as_timestamp(states.sensor.temperature_office.last_changed)) /60) |round(0) }}
+        unit_of_measurement: 'min'
+      temp_update_kitchen:
+        entity_id: sensor.time
+        friendly_name: "Kitchen Last Update"
+        value_template: >
+          {{ ((as_timestamp(now()) - as_timestamp(states.sensor.temperature_kitchen.last_changed)) /60) |round(0) }}
+        unit_of_measurement: 'min'
+      temp_update_master:
+        entity_id: sensor.time
+        friendly_name: "Master Last Update"
+        value_template: >
+          {{ ((as_timestamp(now()) - as_timestamp(states.sensor.temperature_master.last_changed)) /60) |round(0) }}
+        unit_of_measurement: 'min'
+      temp_update_abby:
+        entity_id: sensor.time
+        friendly_name: "Abigail Last Update"
+        value_template: >
+          {{ ((as_timestamp(now()) - as_timestamp(states.sensor.temperature_abby.last_changed)) /60) |round(0) }}
+        unit_of_measurement: 'min'
+      temp_update_deuce:
+        entity_id: sensor.time
+        friendly_name: "Deuce Last Update"
+        value_template: >
+          {{ ((as_timestamp(now()) - as_timestamp(states.sensor.temperature_deuce.last_changed)) /60) |round(0) }}
+        unit_of_measurement: 'min'
+      temp_update_benjamin:
+        entity_id: sensor.time
+        friendly_name: "Ben Last Update"
+        value_template: >
+          {{ ((as_timestamp(now()) - as_timestamp(states.sensor.temperature_ben.last_changed)) /60) |round(0) }}
+        unit_of_measurement: 'min'
+
+  - platform: template
+    sensors:
+      temp_problem_office:
+        friendly_name: "Temp Update Office"
+        value_template: >-
+         {% if states.sensor.temp_update_office.state | float >= 75 %}
+            Problem
+         {%- else -%}
+            OK
+         {%- endif %}
+
+      temp_problem_master:
+        friendly_name: "Temp Update Master"
+        value_template: >-
+         {% if states.sensor.temp_update_master.state | float >= 75 %}
+            Problem
+         {%- else -%}
+            OK
+         {%- endif %}
+
+      temp_problem_kitchen:
+        friendly_name: "Temp Update Kitchen"
+        value_template: >-
+         {% if states.sensor.temp_update_kitchen.state | float >= 75 %}
+            Problem
+         {%- else -%}
+            OK
+         {%- endif %}
+
+      temp_problem_abby:
+        friendly_name: "Temp Update Abby"
+        value_template: >-
+         {% if states.sensor.temp_update_abby.state | float >= 75 %}
+            Problem
+         {%- else -%}
+            OK
+         {%- endif %}
+
+      temp_problem_deuce:
+        friendly_name: "Temp Update Deuce"
+        value_template: >-
+         {% if states.sensor.temp_update_deuce.state | float >= 75 %}
+            Problem
+         {%- else -%}
+            OK
+         {%- endif %}
+
+      temp_problem_benjamin:
+        friendly_name: "Temp Update Benjamin"
+        value_template: >-
+         {% if states.sensor.temp_update_benjamin.state | float >= 75 %}
+            Problem
+         {%- else -%}
+            OK
+         {%- endif %}
+
+      temp_updates_all:
+        entity_id: sensor.time
+        value_template: >-
+          {% if is_state('sensor.temp_problem_office', 'Problem') and
+                is_state('sensor.temp_problem_kitchen', 'Problem') and
+                is_state('sensor.temp_problem_master', 'Problem') and
+                is_state('sensor.temp_problem_abby', 'Problem') and
+                is_state('sensor.temp_problem_deuce', 'Problem')and
+                is_state('sensor.temp_problem_benjamin', 'Problem') -%}
+             Problem
+          {%- else -%}
+             OK
+          {%- endif %}
+
+
+## Average Sensors for HVAC Control & Information
+  - platform: min_max
+    name: "Average Downstairs Temp"
+    type: "mean"
+    round_digits: 1
+    entity_ids:
+      - sensor.temperature_office
+      - sensor.temperature_kitchen
+      - sensor.temperature_master
+  - platform: min_max
+    name: "Average Downstairs Humidity"
+    type: "mean"
+    round_digits: 1
+    entity_ids:
+      - sensor.humidity_office
+      - sensor.humidity_kitchen
+      - sensor.humidity_master
+
+  - platform: min_max
+    name: "Average Upstairs Temp"
+    type: "mean"
+    round_digits: 1
+    entity_ids:
+      - sensor.temperature_abby
+      - sensor.temperature_deuce
+      - sensor.temperature_ben
+  - platform: min_max
+    name: "Average Upstairs Humidity"
+    type: "mean"
+    round_digits: 1
+    entity_ids:
+      - sensor.humidity_abby
+      - sensor.humidity_deuce
+      - sensor.humidity_ben
